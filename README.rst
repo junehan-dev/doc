@@ -13,19 +13,19 @@ INDEX
 folder structure
 ----------------
 
-- :``project folder/`` root dir
+- :``project folder/``: root dir
 
-   - :``setup.py`` file to automate setup project
-   - :``my_package/`` package 1
+   - :``setup.py``: file to automate setup project
+   - :``my_package/``: package 1
 
-      - :``__init__.py`` package recognization
-      - :``factory.py`` sample class module
-      - :``views.py`` sample function module
-      - :``tests/`` test dir
+      - :``__init__.py``: package recognization
+      - :``factory.py``: sample class module
+      - :``views.py``: sample function module
+      - :``tests/``: test dir
 
-         - :``test_factory_views.py`` sample testing scenario
+         - :``test_factory_views.py``: sample testing scenario
 
-   - :``settings/`` setting files
+   - :``settings/``: setting files
 
 
 how to docstring
