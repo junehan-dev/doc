@@ -14,7 +14,7 @@ Defining_document_structure
 --------
 
 TOCTREE_SAMPLE
-   .. code_block:: rst
+   .. code-block:: rst
 
       .. toctree::
          :maxdepth: 2
