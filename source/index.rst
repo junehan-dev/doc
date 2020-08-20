@@ -11,7 +11,6 @@ Welcome to sphinx_test's documentation!
    :caption: Contents:
 
    intro
-   core/toctree
 
 Indices and tables
 ==================

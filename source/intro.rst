@@ -37,6 +37,6 @@ there are several features added by sphinx.
 for example, you cna add cross-file references in portable way using ``ref`` role.
 
    if you are viewing the HTML version, you can look at the source for this coument
-   | use the "Show Source" link in the sidebar
+   use the "Show Source" link in the sidebar
 
-.. |RST| text:: restructured text
+.. |RST| replace:: restructured_text
