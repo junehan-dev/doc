@@ -71,3 +71,25 @@ sphinx-build-OPTIONS_
       Alternative to ``-b``, Uses sphinx ``make_mode``.
 
 .. _sphinx-build-OPTIONS: https://www.sphinx-doc.org/en/master/man/sphinx-build.html#cmdoption-sphinx-build-b
+
+Documenting Objects
+-------------------
+
+one of main objective of sphinx is *documenting of objects in any domain.*
+
+domain
+   A Collection of object types that belong together,
+   complete with markup to create and reference descriptions of there objects.
+
+most prominent domain is Python domain, example in below...
+
+.. code-block:: rst
+
+   .. py:function:: enumerate(sequence [, start=0])
+
+   Returns an Iterator that yields tuple of an index and it's value as a sequence
+
+
+.. py:function:: enumerate(sequence [, start=0])
+
+   Returns an Iterator that yields tuple of an index and it's value as a sequence
