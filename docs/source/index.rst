@@ -11,6 +11,8 @@ Welcome to sphinx_test's documentation!
    :caption: Contents:
 
    intro
+   configuration
+   git/archive
 
 Indices and tables
 ==================
