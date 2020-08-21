@@ -152,3 +152,24 @@ therefore, you must add approrpicate path to ``sys.path`` in your ``conf.py``
 
 .. WARNING::
    autodoc imports the modules to be documented.
+
+Intersphinx
+-----------
+
+When you wnat to make links to such sphinx-documents on internet on your doc,
+you can do it with ``sphinx.ext.Intersphinx``
+
+to use them, activate it in conf.py by 'sphinx.ext.intersphinx' to extensions list and,
+*set up the ``intersphinx_mapping* config value.
+
+for examlple, to lint to ``io.open()`` int the python lin intersphinx_mapping,
+setup your ``intersphinx_mapping`` like:
+
+   .. code-block:: py
+
+      intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
+
+and now, you canr write cross-reference like :py:func:`io.open`.
+Any cross-ref that has no match will be looked up in documentation sets configured in ``intersphinx_mapping``
+also works for some other domain's rols including ``:ref:``. not only python...
+but doesnt work for ``:doc:`` as that is non domain role.
