@@ -93,3 +93,62 @@ most prominent domain is Python domain, example in below...
 .. py:function:: enumerate(sequence [, start=0])
 
    Returns an Iterator that yields tuple of an index and it's value as a sequence
+
+there are more directives for documeting other types of python obj.
+   - ``py:class``
+   - ``py:method``
+   - ``py:fuction``
+
+there is also cross-referencing role for each of there object types.
+*this markup will create a link to documentation of ``enumerate()``*
+
+   the :py:func:`enumerate` function can be used for ...
+
+if Python domain is the defaultone, ``py:`` can be ommited.
+and also doesn't matter which file contains the actual doc for directive.
+
+Each domain will have special rules for..
+   - how the signatures can look like,
+   - and make the fommated output look pretty
+   - or add specific features like links to parameter types, e.g, c/c++ domains.
+
+Basic configuration
+--------------------
+
+since ``conf.py`` is executed by sphinx, you can do non-trival tasks in it,
+like extending ``sys.path`` or importing a module to find out the version you are documenting.
+
+.. 너는 하찮지 않은 태스크를 그 안에 할 수 있다.
+
+Autodoc
+-------
+
+python conventially documents really a alot of docstrings.
+so, use extension called ``autodoc``.
+
+to activate it. in ``conf.py`` put the string ``sphinx.ext.autodoc`` into ``extensions``  config value.
+
+.. code-block:: py
+
+   extension = ['sphinx.ext.autodoc']
+
+the, needs to add few additional directives at  your disposal.
+for examlple, to document the fuction ``io.open()``, reads its signature and docstring from the source file, like,
+
+.. code-block:: rst
+
+   .. autofunction:: io.open
+
+you can aslo document whole classes or even modules automatically,
+using member options for auto directives, like,
+
+.. code-block:: rst
+
+   .. automodule:: io
+      :members:
+
+``autodoc`` needs to import your modules in order to extract docstrings.
+therefore, you must add approrpicate path to ``sys.path`` in your ``conf.py``
+
+.. WARNING::
+   autodoc imports the modules to be documented.
