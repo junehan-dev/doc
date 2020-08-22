@@ -3,7 +3,7 @@ Primer
 
 This is bried introduction to rst concepts and syntax,
 intended to provide authors with enough information to author
-documents productivly. reST는 단순하고, 화려하지 않은 마크업 언어로 설계 되었기 때문에, 오래 걸리진 않을 겁니다.
+documents productivly. reST는 단순하고, 화려하지 않은 마크업 언어로 설계되었기 때문에, 오래 걸리진 않을 겁니다.
 
 Paragraphs
 ----------
@@ -142,3 +142,48 @@ function은 지시자의 이름입니다. 두 개의 매개변수가 주어지�
 옵션들은, 반드시 directve-content와 동일한 레벨에 indent되어야 합니다.
 
 directive-content는 하나의 공백-줄 이후에 따라오며, directive 시작부에 상대적인 레벨로 indented됩니다.
+
+Footnotes
+---------
+
+*note*
+   | 문서나 챕터의 끝에 최하단에 있는 문장입니다.
+   | note는 저자의 말이나, 텍스트에 지원부인 레퍼런스의 Citations를 포함합니다.
+
+*footnotes*
+   | ``endnote`` 들은 챕터의 끝에서 분리된 헤딩으로 수집되는 반면, 
+   | *페이지* 의 foot에 있는 노트들입니다.
+   | footnote와 다르게 endnote는 메인 텍스트 레이아웃을 방해하지 않는다는 장점이 있습니다.
+   | 그러나 독자가 노트가 필요할 때 페이지를 이동해야한다는 단점이 있죠.
+
+``[#name]_`` 를 사용하여 footnote의 위치를 마크할 수 있습니다.
+그리고, footnote-바디를 문서의 최하단에, "Footnotes" rubic헤딩(문서에 관계를 잡지 않는 헤딩) 이후에 두면 됩니다, 아래처럼요::
+
+   Lorem ipsum [#f1]_ dolor sit amet ... [#f2]_
+
+   .. rubric:: Footnotes
+
+   .. [#f1] Text of the first footnote.
+   .. [#f2] Text of the second footnote.
+
+명시적으로 (``[1]_``)식으로 넘버링을 하거나, 이름없이 자동 넘버링인, (``[#]_``). 을 사용할 수 있습니다.
+
+
+Citations
+---------
+
+*Citation*
+   | reference to source.
+   | precisely, is Abbreviated alphanumeric expression embedded in the body of an intellectual work,
+   | that denotes(by a sign, indicate) an entry of bibilographic(list of alll source used) references section of the work
+   | for purpose of ack the relevance of the works of other to the topic of discussion at the spot where citation appears.
+
+표준 reST citations는 그들이 "global" 하다는 추가적인 특성과 함께 지원됩니다.
+예를 들어 모든 citations는 모든 파일에서 참조될 수 있죠.
+아래 처럼 사용하세요::
+
+   Lorem ipsum [Ref]_ dolor sit amet.
+
+   .. [Ref] Book or article reference, URL or whatever.
+
+citation사용은, footnote와 비슷하지만, 라벨이 넘버링 불가하고 #으로 시작하지 않는다는 점에서 다릅니다.
