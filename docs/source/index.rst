@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to sphinx_test's documentation!
-=======================================
+Welcome to junehan's sphix_git documentation!
+=============================================
 
 .. toctree::
    :maxdepth: 2
@@ -12,6 +12,7 @@ Welcome to sphinx_test's documentation!
 
    intro
    configuration
+   rst/primer
    git/archive
 
 Indices and tables
