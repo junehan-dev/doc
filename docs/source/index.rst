@@ -7,12 +7,13 @@ Welcome to junehan's sphix_git documentation!
 =============================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    intro
    configuration
    rst/primer
+   rst/contents/directives
    git/archive
 
 Indices and tables
