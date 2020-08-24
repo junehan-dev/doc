@@ -478,12 +478,220 @@ Index-gernerating markup
    Possible entry types::
    
       - single
-         Create single index entry.
 
+         Create single index entry.
          subentry를 생성할 수 있으며, subentry text를 semicolon으로 나누는 것으로 만들 수 있다.
 
       - pair
+
+         ``pair: loop; statement`` is a shortcut that creates two index entries, namely loop; statement and statement; loop.
+
       - triple
+
+         마찬가지로, ``triple: module; search; path`` is shortcut that creates three index entries,
+
+            1. ``module; search path``
+            2. ``search; path``
+            3. ``module and path; module search``
+
       - see
+
+         ``see: entry; other`` create an index entry that refers from entry to other
+
       - seealso
+
+         like see, but insert ``see also`` instead of ``see``.
+
       - module, keyword, operator, object, exception, statement, builtin
+
+         이들은 2개의 인덱스 엔트리를 생성한다. 예를 들어::
+         
+            ``module: hashlib``
+
+            entires module; hashlib과, hashlib를 생성한다.
+         
+   "main" index entries를 prefixing with exclmation mark함으로써 mark up 할 수 있다.
+   "main" 에 대한 entries-references는 generated index에서 emphasized된다.
+   예를 들어 이 두 페이지들은 아래를 포함한다.
+
+   .. code-block:: rst
+
+      .. index:: Python
+   
+   and other page
+
+   .. code-block:: rst
+
+      .. index:: ! Python
+   
+   이럴 경우 뒤쪽 페이지에대한 backlink가 3개의 backlinks 중에서 emphasized된다.
+
+   index directives가 "single" entries를 containg한다면 아래 shotrcut을 적용해도 좋다.
+
+   .. code-block:: rst
+
+      .. index:: BNF, grammar, syntax, notation
+
+   이것은 4개의 인덱스 엔트리를 생성한다.
+
+
+   options
+
+   :name: label for hyperlink(text)
+      Define implicit target name that can be referenced by usign ``ref``
+
+      .. code-block:: rst
+
+         :name: py-index
+
+``:index:``
+^^^^^^^^^^^
+
+
+   ``index`` directives는 block-level 마크업이며, 다음 Paragraph의 시작으로 링크하는 반면,
+   link target을 사용되는 곳에 직접 set할 수 있는 ``role`` 이 있다.
+
+   ``role`` 의 content는 텍스트안에 유지되고 있고, 텍스트 엔트리로 쓰이는 simple phrase 일 수 있다.
+   또한 cross-references의 explict targets처럼 보이는 text와 index entry의 조합일 수도 있다. 
+   그러한 경우에, "target" 부분은, full entry일 수 있다. 예를 들어::
+
+      This is normal reST :index:`paragraph` that contains several
+      :index:`index entries <pair: index; entry>`.
+
+Including content based on tags
+-------------------------------
+
+``.. only:: <expression>``
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   directive의 content를 include한다, 오직 *expression* is true.
+   expression은 tags로 구성되어야 한다.::
+
+      .. only:: html and draft
+   
+   undefined tags are false, defined tags(via the -t command-line option or within conf.py) are true.
+   Boolean expressions와 괄호를 사용하는 것``html and (latex or draft)`` 표현은 잘 동작한다.
+
+   format과 name of the current builder(html, latex or text)는 항상 tag로서 set된다.
+   format과 name을 명시적으로 분별하기 위해서, ``format_`` | ``builder_`` prefix가 added된다.::
+
+      epub builder는 html, epub를 format_html, builber_epub로 태그를 정의한다.
+
+   위 표준 태그들은 conf.py file이 read된 이후에 set되어, 그들은 conf에서는 볼 수 없다.
+
+   모든 태그들은 *standard python identifier syntax* 를 `identifiers and keywords`_ documentation에 명시된 대로 따라야 한다..
+   그는, tag표현이 syntax of Python variables를 따르는 태그들 만으로 구성될 수 있다는것이다.
+   ASCII에서, 이것은 A-Z 까지 lower, uppercase로 구성되며, underscore과 0-9의 숫자형-문자 로 구성된다.
+
+   .. warning::
+
+      이 directive는 오직 document의 content를 조작하기 위해 설계 되었다. 이것은 sections, labels등을 조작할 수 없다.
+
+.. _identifiers and keywords: https://docs.python.org/3/reference/lexical_analysis.html#identifiers
+
+tables
+------
+
+- reST's grid table::
+
+   +------------------------+------------+----------+----------+
+   | Header row, column 1   | Header 2   | Header 3 | Header 4 |
+   | (header rows optional) |            |          |          |
+   +========================+============+==========+==========+
+   | body row 1, column 1   | column 2   | column 3 | column 4 |
+   +------------------------+------------+----------+----------+
+   | body row 2             | ...        | ...      |          |
+   +------------------------+------------+----------+----------+
+
+- reST's simple table::
+
+   =====  =====  =======
+   A      B      A and B
+   =====  =====  =======
+   False  False  False
+   True   False  False
+   False  True   False
+   True   True   True
+   =====  =====  =======
+
+일반적인 처리를 위햐서라면 위의 2 내장 table formmater를 사용하세요.::
+
+   - grid table sytax(reST tables)
+   - simple table syntax(reST tables)
+   - csv-table syntax
+   - list-table syntax
+
+`csv-table`_
+^^^^^^^^^^^^
+
+   .. warning::
+
+      "csv-table" directive의 ":file:"과 ":url:" 옵션은 잠재적으로 보안문제를 야기합니다.
+      ``file_insertion_enalbed`` 런타임 세팅을 통해 disabled 가능합니다.
+
+   .. code-block:: rst
+
+      .. csv-table:: Frozen Delights!
+         :header: "Treat", "Quantity", "Description"
+         :widths: 15, 10, 30
+
+         "Albatross", 2.99, "On a stick!"
+         "Crunchy Frog", 1.49, "If we took the bones out, it wouldn't be
+         crunchy, now would it?"
+         "Gannet Ripple", 1.99, "On a stick!"
+
+   .. csv-table:: Frozen Delights!
+      :header: "Treat", "Quantity", "Description"
+      :widths: 15, 10, 30
+
+      "Albatross", 2.99, "On a stick!"
+      "Crunchy Frog", 1.49, "If we took the bones out, it wouldn't be
+      crunchy, now would it?"
+      "Gannet Ripple", 1.99, "On a stick!"
+
+
+   .. _csv-table: https://docutils.sourceforge.io/docs/ref/rst/directives.html#csv-table
+
+`list-table`_
+^^^^^^^^^^^^^
+
+   .. code-block:: rst
+
+      .. list-table:: Frozen Delights!
+         :widths: 15 10 30
+         :header-rows: 1
+
+         * - Treat
+           - Quantity
+           - Description
+         * - Albatross
+           - 2.99
+           - On a stick!
+         * - Crunchy Frog
+           - 1.49
+           - If we took the bones out, it wouldn't be
+             crunchy, now would it?
+         * - Gannet Ripple
+           - 1.99
+           - On a stick!
+
+   .. list-table:: Frozen Delights!
+      :widths: 15 10 30
+      :header-rows: 1
+
+      * - Treat
+        - Quantity
+        - Description
+      * - Albatross
+        - 2.99
+        - On a stick!
+      * - Crunchy Frog
+        - 1.49
+        - If we took the bones out, it wouldn't be
+          crunchy, now would it?
+      * - Gannet Ripple
+        - 1.99
+        - On a stick!
+
+
+   .. _list-table: https://docutils.sourceforge.io/docs/ref/rst/directives.html#list-table
