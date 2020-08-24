@@ -205,3 +205,113 @@ Paragraph-level markup
       * that should be
       * displayed
       * horizontally
+
+Showing code examples
+---------------------
+
+코드를 syntax-highlighted 되게 보여주는 방법은 4가지가 있다.
+
+- using reST *doctest* blocks 
+- using reST *literal* blocks, optionally in combination with *highlight* directive
+- using *code-block* directive
+- using *literalinclude* directive
+
+Doctest블록은 interactive-파이썬-session을 보여줄 때만 가능하고, 반면 남아있는 세개는 다른 언어에 적용가능하다.
+
+literal blocks는 모든 문서나 커다란 섹션규모에서 유용하다. 그냥 code blocks를 사용하면 동일하게 보여질 것이다.
+반면, *code-block* directive는 한 문서에서 여러가지 코드를 해당 syntax에 맞춰서 보여줄 때 더 적합하게 구성되어 있다.
+마지막으로 *literalinclude* directive는 코드파일 자체를 문서에 포함할 때 유용하다.
+
+이 모든 방식에서 syntax highlight는 `Pygments`_ 에서 가져온 것이다.
+문자열 블록을 만났을 때, highlight directive를 해당 소스파일에서 설정하는 것으로 설정된다.
+만약 highlight directive에 진입하면, 다음 highlight directive를 만나기 전까지 사용된다.
+해당 파일에 highlight directive가 없으면, global highlighting language가 사용된다.
+기본적으로 파이톤으로 설정되어 있으나 *highlight_language* config value를 수정하는 것으로 전환 가능하다.
+아래 value들이 config에 적용될 수 있다::
+
+   - none (no highlighting)
+   - default (similar to python3)
+   - guess (let *Pygments* guess the lexer based on contets, only works with well-recongnizable langs)
+   - python
+   - rest
+   - c
+   - ... and any other lexer alias that Pygments supports
+
+.. _Pygments: https://pygments.org/
+
+만약 설정한 언어의 highlight가 실패하면 (Pygments emits an "error" token), 해당 블록은 전혀 highlight되지 않을 것이다.
+
+.. important::
+
+   list of lexer aliases supports is tied to Pygment version. check the version of Pygments!
+
+highlight
+^^^^^^^^^
+
+exmple::
+
+   .. highlight:: c
+      :linenothreshold: 5
+
+options
+
+   - ``:linenothreshold: threshold (number [optional])``
+   
+      Enable gernerate line numbers for code blocks.
+      directive will produce line numbers only for the code blocks longer than n lines
+
+code-block
+^^^^^^^^^^
+
+examples::
+
+   .. code-block:: ruby
+      :linenos:
+      :lineno-start: 10
+      :emphasize-lines: 3,5
+      :caption: this.ruby
+      :name: this-ruby 
+      :dedent: 4
+
+          some Ruby code.
+
+.. versionchanged:: 2.0:
+     The language argument becoms optional.
+
+   options
+   
+   - ``:linenos: (no value)``
+      Enables to generate line numbers for code block
+
+   - ``:lineno-start: number (number)``
+      set the first line number of the code block. if present, ``linenos`` option is also automatically activated
+
+   - ``:emphasize-lines: line numbers(comma seperated numbers)``
+      emphasize particular lines of the code block
+
+   - ``:caption: caption of code block(text)``
+      set a caption to the code block
+
+   - ``:name: a label for hyperlink(text)``
+      Define a implicit target name that can be refenced by using ref.
+
+   - ``:dedent: number(number)``
+      strip indentation characters from the code block.
+
+literalinclude: filename
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+longer displays of ve
+
+
+examples::
+
+   .. literalinclude:: example.rb
+      :language: ruby
+      :emphasize-lines: 12,15-18
+      :linenos:
+
+options
+
+   - ``:: ([])```
+
