@@ -14,7 +14,7 @@ Welcome to junehan's sphix_git documentation!
    configuration
    rst/primer
    rst/contents/directives
-
+   rst/contents/field_lists
 
 Indices and tables
 ==================
