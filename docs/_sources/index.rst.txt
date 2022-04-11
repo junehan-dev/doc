@@ -10,9 +10,8 @@ Welcome to junehan's docs_sphinx documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   intro
    clang/index
-   rst/index
+   python/index
 
 Indices and tables
 ==================

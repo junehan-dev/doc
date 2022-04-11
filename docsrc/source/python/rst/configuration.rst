@@ -1,14 +1,14 @@
-rst/Configuration
+Configuration
 =================
 
-rst/Configurations/intro
-------------------------
+intro
+-----
 
 The Configuration directory must contain a file named ``conf.py``.
 this file is called the "build Configuration file" and, contains all confs to customize sphinx input and output behavior
 
-rst/Configurations/Keynotes
----------------------------
+Keynotes
+--------
 
 - if not otherwise documented, values must be strings N theire default is empty stirng.
 - the term "fully-qualified name" refers to stirng that names an importable ``Python object`` inside a module;
