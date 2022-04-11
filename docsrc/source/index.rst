@@ -12,10 +12,6 @@ Welcome to junehan's docs_sphinx documentation!
 
    intro
    rst/intro
-   rst/configuration
-   rst/primer
-   rst/contents/directives
-   rst/contents/field_lists
 
 Indices and tables
 ==================
