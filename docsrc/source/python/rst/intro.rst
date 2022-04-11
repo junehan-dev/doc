@@ -1,5 +1,8 @@
+intro to sphinx
+===============
+
 Defining_document_structure
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
 
 #. you did setup with sphinx-quickstart.
 #. ``conf.py``, ``master document``, ``index.rst`` generated as core
@@ -27,7 +30,7 @@ their section titles will be inserted(maxdepth레벨에 따라) at place where t
 also, sphinx now know avout the order and hierarchy of your documents.
 
 Adding_content
-^^^^^^^^^^^^^^
+--------------
 
 in sphinx ``source`` directory files, you can use most features of standard |RST|.
 there are several features added by sphinx.
@@ -40,7 +43,7 @@ for example, you cna add cross-file references in portable way using ``ref`` rol
 
 
 Running_the_build
-^^^^^^^^^^^^^^^^^
+-----------------
 
 guess you added some files and content, A build is startd with sphinx-build program
 
@@ -49,7 +52,7 @@ guess you added some files and content, A build is startd with sphinx-build prog
    sphinx-build -b html sourcedir builddir
 
 sphinx-build-OPTIONS_
-^^^^^^^^^^^^^^^^^^^^^
+---------------------
 
 - ``-b buildername``
 
@@ -70,7 +73,7 @@ sphinx-build-OPTIONS_
 .. _sphinx-build-OPTIONS: https://www.sphinx-doc.org/en/master/man/sphinx-build.html#cmdoption-sphinx-build-b
 
 Documenting Objects
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 one of main objective of sphinx is *documenting of objects in any domain.*
 
@@ -110,7 +113,7 @@ Each domain will have special rules for..
    - or add specific features like links to parameter types, e.g, c/c++ domains.
 
 Basic configuration
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 since ``conf.py`` is executed by sphinx, you can do non-trival tasks in it,
 like extending ``sys.path`` or importing a module to find out the version you are documenting.
@@ -118,7 +121,7 @@ like extending ``sys.path`` or importing a module to find out the version you ar
 .. 너는 하찮지 않은 태스크를 그 안에 할 수 있다.
 
 Autodoc
-^^^^^^^
+-------
 
 python conventially documents really a alot of docstrings.
 so, use extension called ``autodoc``.
@@ -151,7 +154,7 @@ therefore, you must add approrpicate path to ``sys.path`` in your ``conf.py``
    autodoc imports the modules to be documented.
 
 Intersphinx
-^^^^^^^^^^^
+-----------
 
 When you wnat to make links to such sphinx-documents on internet on your doc,
 you can do it with ``sphinx.ext.Intersphinx``
