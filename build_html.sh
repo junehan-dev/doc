@@ -1,2 +1,2 @@
 #!/bin/sh
-sphinx-build docs docssrc
+sphinx-build docs/source docssrc
