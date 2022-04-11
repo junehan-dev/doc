@@ -4,15 +4,15 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Primer &#8212; sphinx_doc 0.1a documentation</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Primer &#8212; docs_sphinx 0.1a documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Directives" href="contents/directives.html" />
@@ -33,17 +33,17 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="primer">
+  <section id="primer">
 <h1>Primer<a class="headerlink" href="#primer" title="Permalink to this headline">¶</a></h1>
 <p>This is bried introduction to rst concepts and syntax,
 intended to provide authors with enough information to author
 documents productivly. reST는 단순하고, 화려하지 않은 마크업 언어로 설계되었기 때문에, 오래 걸리진 않을 겁니다.</p>
-<div class="section" id="paragraphs">
+<section id="paragraphs">
 <h2>Paragraphs<a class="headerlink" href="#paragraphs" title="Permalink to this headline">¶</a></h2>
 <p>Paragrap는 reST문서에서 가장 기본형의 블록입니다. Paragraph들은 단순한 문자의 덩어리이고 1줄 혹은 그 이상의 둘로 나눠집니다.
 파이썬에서 그렇듯이, 들여쓰기는 reST에서 매우 중요합니다, 따라서 동일한 Paragraph의 모든 라인은 좌측에 맞춰 동-레벨의 intentation을 가져야 합니다.</p>
-</div>
-<div class="section" id="line-markup">
+</section>
+<section id="line-markup">
 <h2>line markup<a class="headerlink" href="#line-markup" title="Permalink to this headline">¶</a></h2>
 <p>표준 reST inline은 사용하기 정말 쉽죠,: 아래처럼,</p>
 <blockquote>
@@ -68,8 +68,8 @@ backslash를 사용하여 escaped되어야 합니다.
 </div></blockquote>
 <p>이 제한사항들은 docutils의 버전에 따라 바뀔 수 있습니다.
 이러한 인라인 마크업을 <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#rst-roles-alt">Roles</a> 를 통해 대체하거나 확장할 수 있습니다.</p>
-</div>
-<div class="section" id="literal-blocks">
+</section>
+<section id="literal-blocks">
 <h2>Literal blocks<a class="headerlink" href="#literal-blocks" title="Permalink to this headline">¶</a></h2>
 <p>코드 블록은 Paragraph를 특별한 표시인 ::.으로 종료함으로 사용 가능합니다.
 문맥상 블록은 반드시  indented되어야 합니다.(그리고 모든 Paragraphs처럼, 하나의 빈줄로 경계를 표시해야 합니다.):</p>
@@ -91,13 +91,13 @@ backslash를 사용하여 escaped되어야 합니다.
 <li><p>만약 공백이 아닌것에 붙여 온다면, <em>마커는 하나의 콜론으로 전환됩니다.</em></p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="directives">
+</section>
+<section id="directives">
 <h2>Directives<a class="headerlink" href="#directives" title="Permalink to this headline">¶</a></h2>
 <p>지시체는 명시적인 마크업의 일반적인 블럭입니다.
 roles를 따라, 이것은 reST의 확장 매커니즘의 하나이고,
 스핑크스는 이것을 매우 깊게 활용할 수 있도록 만들어 놓았습니다.</p>
-<div class="section" id="docutil-support-directives">
+<section id="docutil-support-directives">
 <h3>Docutil support Directives<a class="headerlink" href="#docutil-support-directives" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><ul>
@@ -200,9 +200,9 @@ this directive takes it as relative to the source directory.</p>
 (발견하셨을거라 추측하지만, 옵션들은 매개변수 이후에 바로 주어지고, 콜론에 의해서 지정됩니다.)
 옵션들은, 반드시 directve-content와 동일한 레벨에 indent되어야 합니다.</p>
 <p>directive-content는 하나의 공백-줄 이후에 따라오며, directive 시작부에 상대적인 레벨로 indented됩니다.</p>
-</div>
-</div>
-<div class="section" id="footnotes">
+</section>
+</section>
+<section id="footnotes">
 <h2>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h2>
 <dl>
 <dt><em>note</em></dt><dd><div class="line-block">
@@ -229,8 +229,8 @@ this directive takes it as relative to the source directory.</p>
 </pre></div>
 </div>
 <p>명시적으로 (<code class="docutils literal notranslate"><span class="pre">[1]_</span></code>)식으로 넘버링을 하거나, 이름없이 자동 넘버링인, (<code class="docutils literal notranslate"><span class="pre">[#]_</span></code>). 을 사용할 수 있습니다.</p>
-</div>
-<div class="section" id="citations">
+</section>
+<section id="citations">
 <h2>Citations<a class="headerlink" href="#citations" title="Permalink to this headline">¶</a></h2>
 <dl>
 <dt><em>Citation</em></dt><dd><div class="line-block">
@@ -250,8 +250,8 @@ this directive takes it as relative to the source directory.</p>
 </pre></div>
 </div>
 <p>citation사용은, footnote와 비슷하지만, 라벨이 넘버링 불가하고 #으로 시작하지 않는다는 점에서 다릅니다.</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -260,7 +260,7 @@ this directive takes it as relative to the source directory.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">sphinx_doc</a></h1>
+<h1 class="logo"><a href="../index.html">docs_sphinx</a></h1>
 
 
 
@@ -270,7 +270,7 @@ this directive takes it as relative to the source directory.</p>
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../intro.html">Intro</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
@@ -303,7 +303,7 @@ this directive takes it as relative to the source directory.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -325,7 +325,7 @@ this directive takes it as relative to the source directory.</p>
       &copy;2020, junehan.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

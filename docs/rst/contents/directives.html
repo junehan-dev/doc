@@ -4,15 +4,15 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Directives &#8212; sphinx_doc 0.1a documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Directives &#8212; docs_sphinx 0.1a documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Field Lists" href="field_lists.html" />
@@ -33,7 +33,7 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="directives">
+  <section id="directives">
 <h1>Directives<a class="headerlink" href="#directives" title="Permalink to this headline">¶</a></h1>
 <p>Directives는 명시적인 마크업의 기본 블록이다.
 docutils가 다수의 Directives를 제공하는 반면, sphinx는 더 많은 것을 제공하며, Directives를 주요한 확장 매커니즘의 하나로 사용한다.</p>
@@ -42,7 +42,7 @@ docutils가 다수의 Directives를 제공하는 반면, sphinx는 더 많은 �
 <p class="admonition-title">Tip</p>
 <p>restructuredtext Primer문서에 docutils에 의해 제공되는 Directives를 확인할 수 있다.</p>
 </div>
-<div class="section" id="table-of-contents">
+<section id="table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
 <p>reST가 일부 문서들의 연결하기위한 빌트인을 제공하지 않기 때문에, 또는
 문서를 여러 출력파일로 나누지 않기 떄문에, sphinx는 커스텀-Directives를 사용하여,
@@ -56,7 +56,7 @@ docutils가 다수의 Directives를 제공하는 반면, sphinx는 더 많은 �
 <p class="admonition-title">Note</p>
 <p>현재 문서를 위한 contents table을 생성하기 위해서, reST의 표준 <code class="docutils literal notranslate"><span class="pre">contents</span> <span class="pre">Directive</span></code> 를 사용하면 된다.</p>
 </div>
-<div class="section" id="toctree">
+<section id="toctree">
 <h3>toctree<a class="headerlink" href="#toctree" title="Permalink to this headline">¶</a></h3>
 <p>이 Directive는 “TOC tree”를 현재 위치에 삽입한다.
 directive body에 주어진 문서의 개별적인 TOCs(“sub-TOC trees”를 포함한)를 사용하여 그리한다.
@@ -84,8 +84,8 @@ default로는 모든레벨이 포함된다.</p>
 <li><p>Sphinx knows the relative order of the documents. <em>intro</em>, <em>strings</em> and so forth, and it knows that they are children of the shown document, the library index. From this information it generates “next chapter”, “previous chapter” and “parent chapter” links.</p></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="entries">
+</section>
+<section id="entries">
 <h3>Entries<a class="headerlink" href="#entries" title="Permalink to this headline">¶</a></h3>
 <p>Document titles in toctree는 자동적으로 referenced document의 title을 읽어올 것입니다.
 만약 그것이 당신이 원한행동이 아니라면, 직접 명시적으로 title과 target을 similar syntax to reST hyperlinks를 작성하세요.
@@ -99,8 +99,8 @@ default로는 모든레벨이 포함된다.</p>
 </div>
 <p>두번째 줄은 <em>strings</em> 문서 에 대한 링크입니다. 그러나 All about strings를 strings의 title을 대신해서 사용합니다.
 직접 명시적인 링크를 줄 수도 있습니다. 문서이름이 아니라 HTTP URL을 부여할 수도 있죠</p>
-</div>
-<div class="section" id="section-numbering">
+</section>
+<section id="section-numbering">
 <h3>Section numbering<a class="headerlink" href="#section-numbering" title="Permalink to this headline">¶</a></h3>
 <p>만약 섹션 번호가 html output에도 있길 바란다면, <strong>toplevel</strong> toctree를 <em>numbered</em> 옵션을 주세요.
 예를 들면:</p>
@@ -114,8 +114,8 @@ default로는 모든레벨이 포함된다.</p>
 <p>번호매김은 foo의 헤딩에서 부터 시작될 겁니다. sub-toctree는 자동적으로 번호매김이 됩니다.
 (그들에게는 <em>numbered</em> 옵션을 주면 안되요.)</p>
 <p>특정 depth까지만 번호매김을 적용하는 것도 가능합니다. depth를 numeric argement로 numbered옵션에 주면 처리 될겁니다.</p>
-</div>
-<div class="section" id="additional-options">
+</section>
+<section id="additional-options">
 <h3>Additional options<a class="headerlink" href="#additional-options" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>caption</p></li>
@@ -158,8 +158,8 @@ default로는 모든레벨이 포함된다.</p>
 <p>이것은 <code class="docutils literal notranslate"><span class="pre">intro</span></code> 라는 이름으로 시작되는 모든 documents를 포함할 것 입니다.
 그리고 <code class="docutils literal notranslate"><span class="pre">recipe</span></code> 폴더 안의 모든 문서들,
 마지막으로 남은 모든 문서들(이미 포함된 것은 제외)을 포함할 것입니다.</p>
-</div>
-<div class="section" id="special-names">
+</section>
+<section id="special-names">
 <h3>Special names<a class="headerlink" href="#special-names" title="Permalink to this headline">¶</a></h3>
 <p>Sphinx는 일부 document이름들을 특정 용도를 위해 예약해 두었습니다.
 따라서 이 이름들은 이미 수행하는 역할이 있기 때문에 네임스페이스를 존중해주어야합니다.
@@ -178,9 +178,9 @@ default로는 모든레벨이 포함된다.</p>
 </ul>
 </div></blockquote>
 </div>
-</div>
-</div>
-<div class="section" id="paragraph-level-markup">
+</section>
+</section>
+<section id="paragraph-level-markup">
 <h2>Paragraph-level markup<a class="headerlink" href="#paragraph-level-markup" title="Permalink to this headline">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -246,8 +246,8 @@ default로는 모든레벨이 포함된다.</p>
 </div></blockquote>
 </li>
 </ul>
-</div>
-<div class="section" id="showing-code-examples">
+</section>
+<section id="showing-code-examples">
 <h2>Showing code examples<a class="headerlink" href="#showing-code-examples" title="Permalink to this headline">¶</a></h2>
 <p>코드를 syntax-highlighted 되게 보여주는 방법은 4가지가 있다.</p>
 <ul class="simple">
@@ -280,7 +280,7 @@ default로는 모든레벨이 포함된다.</p>
 <p class="admonition-title">Important</p>
 <p>list of lexer aliases supports is tied to Pygment version. check the version of Pygments!</p>
 </div>
-<div class="section" id="highlight">
+<section id="highlight">
 <h3>highlight<a class="headerlink" href="#highlight" title="Permalink to this headline">¶</a></h3>
 <p>exmple:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">highlight</span><span class="p">::</span> <span class="n">c</span>
@@ -298,8 +298,8 @@ directive will produce line numbers only for the code blocks longer than n lines
 </li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="code-block">
+</section>
+<section id="code-block">
 <h3>code-block<a class="headerlink" href="#code-block" title="Permalink to this headline">¶</a></h3>
 <p>examples:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">ruby</span>
@@ -349,8 +349,8 @@ directive will produce line numbers only for the code blocks longer than n lines
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="literalinclude-filename">
+</section>
+<section id="literalinclude-filename">
 <h3>literalinclude: filename<a class="headerlink" href="#literalinclude-filename" title="Permalink to this headline">¶</a></h3>
 <p>verbatim text의 displays가 더 길어지는 것은 아마도, 외부 파일을 포함하는 것을 통해서 이루어 질 수 있다.
 파일은 <code class="docutils literal notranslate"><span class="pre">literalinclude</span></code> directive를 통해서, 이루어 질 것이다.</p>
@@ -419,8 +419,8 @@ include파일들은 <code class="docutils literal notranslate"><span class="pre"
    <span class="p">:</span><span class="n">diff</span><span class="p">:</span> <span class="n">example</span><span class="o">.</span><span class="n">py</span><span class="o">.</span><span class="n">orig</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="glossary">
+</section>
+<section id="glossary">
 <h3>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h3>
 <p>이 directive는 반드시 reST definition-list-like markup에 terms-definition가 붙여진 형태로 포함되어야한다.
 해당  term-정의들은 이 후, <code class="docutils literal notranslate"><span class="pre">term</span></code> role을 통해 referenced될 것이다.:</p>
@@ -470,11 +470,11 @@ key “A” 과 “a”은 다른 그룹이다. 모든 “key”의 모든 캐�
 <dt>Surrogacy</dt><dd><p>arrangement, often supported by a legal agreement, where by a woman agrees to bear child for another person</p>
 </dd>
 </dl>
-</div>
-</div>
-<div class="section" id="meta-information-markup">
+</section>
+</section>
+<section id="meta-information-markup">
 <h2>Meta-information markup<a class="headerlink" href="#meta-information-markup" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="sectionauthor-name-email">
+<section id="sectionauthor-name-email">
 <h3><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">sectionauthor::</span> <span class="pre">name</span> <span class="pre">&lt;email&gt;</span></code><a class="headerlink" href="#sectionauthor-name-email" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>현재 section에서 author를 명시한다. email의 도메인명부분은 소문자 표기되어야 한다:</p>
@@ -484,20 +484,20 @@ key “A” 과 “a”은 다른 그룹이다. 모든 “key”의 모든 캐�
 </div></blockquote>
 <p>default로, 이 마크업은 아웃풋에 반영되지않는다. 이는 기여를 추적하는 것을 도와준다,
 이는 conf-value에서 <code class="docutils literal notranslate"><span class="pre">show_authors</span></code> 를 True로 설정해주면 output Paragraph를 생성해준다.</p>
-</div>
-<div class="section" id="codeauthor-name-email">
+</section>
+<section id="codeauthor-name-email">
 <h3><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">codeauthor::</span> <span class="pre">name</span> <span class="pre">&lt;email&gt;</span></code><a class="headerlink" href="#codeauthor-name-email" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">codeauthor</span></code> directive는, 여러번 등장 할 수 있으며, <code class="docutils literal notranslate"><span class="pre">sectionauthor</span></code> 처럼 문서의 부분의 저자를 이름 붙인다.
 이 또한 <code class="docutils literal notranslate"><span class="pre">show_authors</span></code> 가 True로 설정되어야 output을 문서에 반영한다.</p>
 </div></blockquote>
-</div>
-</div>
-<div class="section" id="index-gernerating-markup">
+</section>
+</section>
+<section id="index-gernerating-markup">
 <h2>Index-gernerating markup<a class="headerlink" href="#index-gernerating-markup" title="Permalink to this headline">¶</a></h2>
 <p>스핑크스는 자동으로 index entries를 모든 object descriptions(class, functions, attrs)로 부터 생성한다.</p>
 <p>별도로 명시적은 마크업을 통해서 구성하는 것이 가능하니, index를 더 이해하기 쉽게, 그리고 index entires중 선별할 수도 있다.</p>
-<div class="section" id="index-entries">
+<section id="index-entries">
 <h3><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">index::</span> <span class="pre">&lt;entries&gt;</span></code><a class="headerlink" href="#index-entries" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>이 지시자는 단일 혹은 복수의 index entries를 포함한다. entry는 타입과 value로 <code class="docutils literal notranslate"><span class="pre">:</span></code> 으로 분리하여 작성한다.
@@ -574,8 +574,8 @@ Define implicit target name that can be referenced by usign <code class="docutil
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="index">
+</section>
+<section id="index">
 <h3><code class="docutils literal notranslate"><span class="pre">:index:</span></code><a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">index</span></code> directives는 block-level 마크업이며, 다음 Paragraph의 시작으로 링크하는 반면,
@@ -588,11 +588,11 @@ link target을 사용되는 곳에 직접 set할 수 있는 <code class="docutil
 </pre></div>
 </div>
 </div></blockquote>
-</div>
-</div>
-<div class="section" id="including-content-based-on-tags">
+</section>
+</section>
+<section id="including-content-based-on-tags">
 <h2>Including content based on tags<a class="headerlink" href="#including-content-based-on-tags" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="only-expression">
+<section id="only-expression">
 <h3><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">only::</span> <span class="pre">&lt;expression&gt;</span></code><a class="headerlink" href="#only-expression" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>directive의 content를 include한다, 오직 <em>expression</em> is true.
@@ -616,9 +616,9 @@ ASCII에서, 이것은 A-Z 까지 lower, uppercase로 구성되며, underscore�
 <p>이 directive는 오직 document의 content를 조작하기 위해 설계 되었다. 이것은 sections, labels등을 조작할 수 없다.</p>
 </div>
 </div></blockquote>
-</div>
-</div>
-<div class="section" id="tables">
+</section>
+</section>
+<section id="tables">
 <h2>tables<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p>reST’s grid table:</p>
@@ -653,7 +653,7 @@ ASCII에서, 이것은 A-Z 까지 lower, uppercase로 구성되며, underscore�
 <span class="o">-</span> <span class="nb">list</span><span class="o">-</span><span class="n">table</span> <span class="n">syntax</span>
 </pre></div>
 </div>
-<div class="section" id="csv-table">
+<section id="csv-table">
 <h3><a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#csv-table">csv-table</a><a class="headerlink" href="#csv-table" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><div class="admonition warning">
@@ -701,8 +701,8 @@ crunchy, now would it?</p></td>
 </tbody>
 </table>
 </div></blockquote>
-</div>
-<div class="section" id="list-table">
+</section>
+<section id="list-table">
 <h3><a class="reference external" href="https://docutils.sourceforge.io/docs/ref/rst/directives.html#list-table">list-table</a><a class="headerlink" href="#list-table" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">list-table</span><span class="p">::</span> Frozen Delights!
@@ -754,9 +754,9 @@ crunchy, now would it?</p></td>
 </tbody>
 </table>
 </div></blockquote>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
           </div>
@@ -765,7 +765,7 @@ crunchy, now would it?</p></td>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../../index.html">sphinx_doc</a></h1>
+<h1 class="logo"><a href="../../index.html">docs_sphinx</a></h1>
 
 
 
@@ -775,7 +775,7 @@ crunchy, now would it?</p></td>
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Intro</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
@@ -834,7 +834,7 @@ crunchy, now would it?</p></td>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -856,7 +856,7 @@ crunchy, now would it?</p></td>
       &copy;2020, junehan.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
