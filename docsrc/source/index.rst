@@ -11,6 +11,7 @@ Welcome to junehan's docs_sphinx documentation!
    :caption: Contents:
 
    clang/index
+   golang/index
    python/index
 
 Indices and tables
