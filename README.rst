@@ -1,4 +1,4 @@
-docs_sphinx_junehan
-===================
+docs_main_junehan
+==================
 
-| Provide sphinx in korean documents at https://codenamenadja.github.io/docs-sphinx/index.html
+| Provide sphinx in korean documents at https://junehan-dev.github.io/docs/index.html
