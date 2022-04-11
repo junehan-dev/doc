@@ -1,5 +1,5 @@
-C language families
-===================
+go language
+===========
 
 .. toctree::
    :maxdepth: 2

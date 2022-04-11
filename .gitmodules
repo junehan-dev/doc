@@ -1,0 +1,3 @@
+[submodule "docsrc/source/golang/books/go_http/srcs"]
+	path = docsrc/source/golang/books/go_http/srcs
+	url = https://github.com/junehan-dev/go-http.git
