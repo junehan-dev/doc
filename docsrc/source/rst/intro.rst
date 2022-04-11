@@ -1,15 +1,3 @@
-Phinx RST 
-=========
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   configuration
-   primer
-   contents/directives
-   contents/field_lists
-
 Defining_document_structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

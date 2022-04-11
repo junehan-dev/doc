@@ -11,7 +11,8 @@ Welcome to junehan's docs_sphinx documentation!
    :caption: Contents:
 
    intro
-   rst/intro
+   clang/index
+   rst/index
 
 Indices and tables
 ==================
