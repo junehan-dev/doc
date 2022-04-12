@@ -34,7 +34,7 @@ HTTP/0.9
    :lines: 1-26
    :encoding: latin-1
 
-.. code-block:: sh
+.. code-block:: bash
 
    $curl --http1.0 --verbose http://127.0.0.1:18888/greeting
 
@@ -58,7 +58,64 @@ HTTP/0.9
 HTTP/0.9 to HTTP/1.0
 --------------------
 
+HTTP 0.9의 기능::
 
+   - 하나의 문서를 전송하는 기능 밖에 없었다.
+   - 통신되는 문서는 HTML content만 가능했다.
+   - 클라이언트 쪽에서 검색 이외의 요청을 보낼 수 없었다.
+   - 새로운 문장을 정송하거나 갱신 또는 삭제 할 수 없었다.
+
+전자메일, 뉴스그룹 프로토콜의 기능을 도입하면서 업데이트가 이루어 졌습니다.
+
+전자메일 HTTP의 기원
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: text
+
+   MIME-Version: 1.0
+   Received: by 10.176.69.212 with HTTP; Wed, 6...
+   From:
+   Date:
+   Message-ID: <CAAw3=...>
+   Subject: hi
+   To: yoshiki@shibu.jp
+   Content-Type: text/plain; charst=UTF-8
+
+   hello
+
+- header에 추가된 내용::
+
+   - 송신자 
+   - 버전
+   - 보낸 시간
+
+- HTTP에도 차용된 내용
+
+   - client request
+
+      1. User-Agent
+      #. Referer
+      #. Authorization
+   
+   - server response
+
+      1. Content-Type
+      #. Content-Length
+      #. Content-Encoding
+      #. Date
+
+.. literalinclude:: srcs/curl_cmds/http10_multi_header.sh
+   :language: sh
+   :linenos:
+   :lines: 1-3
+   :encoding: latin-1
+
+Receiving Header 
+^^^^^^^^^^^^^^^^
+
+.. todo::
+
+   1.4.2 헤더 수신
 
 DNS Server
 ----------
@@ -71,7 +128,6 @@ DNS Server
 사용하는 도메인 네임을 구매한 회사가 있다면, ISPN에서 해당 도메인 네임을 관리하는 회사의 서버까지 방문한 뒤, 해당 도메인을 IP주소로 전달 받게 됩니다.
 
 .. image:: https://d1.awsstatic.com/Route53/how-route-53-routes-traffic.8d313c7da075c3c7303aaef32e89b5d0b7885e7c.png
-
 
 1. 브라우저를 열고 주소를 www.example.com으로 입력합니다.
 2. www.example.com 은 DNS resolver에게 향하는데, 주로 IPS가 관리하는 서버입니다.

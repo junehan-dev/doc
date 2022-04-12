@@ -157,7 +157,7 @@
 <span class="linenos">26</span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">$curl</span> --http1.0 --verbose http://127.0.0.1:18888/greeting
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$curl</span> --http1.0 --verbose http://127.0.0.1:18888/greeting
 
 *   Trying <span class="m">127</span>.0.0.1:18888...
 * Connected to <span class="m">127</span>.0.0.1 <span class="o">(</span><span class="m">127</span>.0.0.1<span class="o">)</span> port <span class="m">18888</span> <span class="o">(</span><span class="c1">#0)</span>
@@ -180,6 +180,75 @@
 </section>
 <section id="http-0-9-to-http-1-0">
 <h2><span class="section-number">1.3. </span>HTTP/0.9 to HTTP/1.0<a class="headerlink" href="#http-0-9-to-http-1-0" title="Permalink to this headline"></a></h2>
+<p>HTTP 0.9의 기능:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">하나의</span> <span class="n">문서를</span> <span class="n">전송하는</span> <span class="n">기능</span> <span class="n">밖에</span> <span class="n">없었다</span><span class="o">.</span>
+<span class="o">-</span> <span class="n">통신되는</span> <span class="n">문서는</span> <span class="n">HTML</span> <span class="n">content만</span> <span class="n">가능했다</span><span class="o">.</span>
+<span class="o">-</span> <span class="n">클라이언트</span> <span class="n">쪽에서</span> <span class="n">검색</span> <span class="n">이외의</span> <span class="n">요청을</span> <span class="n">보낼</span> <span class="n">수</span> <span class="n">없었다</span><span class="o">.</span>
+<span class="o">-</span> <span class="n">새로운</span> <span class="n">문장을</span> <span class="n">정송하거나</span> <span class="n">갱신</span> <span class="n">또는</span> <span class="n">삭제</span> <span class="n">할</span> <span class="n">수</span> <span class="n">없었다</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>전자메일, 뉴스그룹 프로토콜의 기능을 도입하면서 업데이트가 이루어 졌습니다.</p>
+<section id="http">
+<h3><span class="section-number">1.3.1. </span>전자메일 HTTP의 기원<a class="headerlink" href="#http" title="Permalink to this headline"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>MIME-Version: 1.0
+Received: by 10.176.69.212 with HTTP; Wed, 6...
+From:
+Date:
+Message-ID: &lt;CAAw3=...&gt;
+Subject: hi
+To: yoshiki@shibu.jp
+Content-Type: text/plain; charst=UTF-8
+
+hello
+</pre></div>
+</div>
+<ul>
+<li><p>header에 추가된 내용:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">송신자</span>
+<span class="o">-</span> <span class="n">버전</span>
+<span class="o">-</span> <span class="n">보낸</span> <span class="n">시간</span>
+</pre></div>
+</div>
+</li>
+<li><p>HTTP에도 차용된 내용</p>
+<blockquote>
+<div><ul>
+<li><p>client request</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>User-Agent</p></li>
+<li><p>Referer</p></li>
+<li><p>Authorization</p></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p>server response</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Content-Type</p></li>
+<li><p>Content-Length</p></li>
+<li><p>Content-Encoding</p></li>
+<li><p>Date</p></li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="ch">#!/bin/sh</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span>curl --http1.0 -H <span class="s2">&quot;X-Test: Hello&quot;</span> -H <span class="s2">&quot;X-Test: World&quot;</span> http://<span class="nv">$1</span> --verbose
+</pre></div>
+</div>
+</section>
+<section id="receiving-header">
+<h3><span class="section-number">1.3.2. </span>Receiving Header<a class="headerlink" href="#receiving-header" title="Permalink to this headline"></a></h3>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>1.4.2 헤더 수신</p>
+</div>
+</section>
 </section>
 <section id="dns-server">
 <h2><span class="section-number">1.4. </span>DNS Server<a class="headerlink" href="#dns-server" title="Permalink to this headline"></a></h2>
