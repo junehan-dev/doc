@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3. gRPC와 HTTP/2 &mdash; blogable_doc 0.1a documentation</title>
+  <title>3. HTTP/2 &mdash; blogable_doc 0.1a documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -45,7 +45,7 @@
 <li class="toctree-l3 current"><a class="reference internal" href="index.html">network with go lang</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="http10.html">1. Syntax of Http/1.0</a></li>
 <li class="toctree-l4"><a class="reference internal" href="http11_semantics.html">2. Semantics of Http/1.1</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">3. gRPC와 HTTP/2</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">3. HTTP/2</a></li>
 </ul>
 </li>
 </ul>
@@ -72,7 +72,7 @@
           <li><a href="../../index.html">go language</a> &raquo;</li>
           <li><a href="../index.html">books for golang</a> &raquo;</li>
           <li><a href="index.html">network with go lang</a> &raquo;</li>
-      <li><span class="section-number">3. </span>gRPC와 HTTP/2</li>
+      <li><span class="section-number">3. </span>HTTP/2</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/golang/books/go_http/http20.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -82,22 +82,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="grpc-http-2">
-<h1><span class="section-number">3. </span>gRPC와 HTTP/2<a class="headerlink" href="#grpc-http-2" title="Permalink to this headline"></a></h1>
-<p>기존의 HTTP는 문자열기반 <em>application/octet-stream</em>, 8비트 단위로 최소 의미를 지니는 데이터라는 의미입니다.</p>
-<p>HTTP/2의 가장 큰 변화는 텍스트기반 프로토콜에서 바이너리 기반 프로토콜로 변화했다는 점 입니다. 아마 위 내용과의 차이가 있지 않을까 생각하게 됩니다.</p>
-<p>가장 흔한 사용 시나리오는 서비스들을 microservices 스타일 아키텍쳐로 배치하고 그들을 연결할 때 사용하거나, 모바일 디바이스 client를 backend서비스로 연결할 때 사용합니다.</p>
-<p>gRPC의 복합적인 HTTP/2의 사용은 gRPG 클라이언트를 브라우저에서 구현할 수 없도록 만들었습니다만,
-대신 gRPC-web proxy를 사용하여 브라우저가 이해할 수 있도록 방법이 content-type에 대해 분산하여 응답을 받는 것으로 브라우저 상에서 해석 가능한 프로토콜이 되었습니다.</p>
-<img alt="https://grpc.io/img/grpc-web-proxy.png" src="https://grpc.io/img/grpc-web-proxy.png" />
-<div class="admonition-todo admonition" id="id1">
-<p class="admonition-title">Todo</p>
-<p>gRPC를 이해하기 위해선 HTTP2와 그 중심에 있는 SPRD등의 즉 google이 proposal해서 수용된 것들에 대해 이해가 선행됩니다. RABBIT HOLE이다~ 돔황챠!</p>
-</div>
-<p>기존의 RPC가 일반 http1.1를 데이터 프로토콜로 사용하고 있었고 서버와도 http1.1로 통신하고 있었으나,
-gRPC는 2.0강제하고, 1회의 통신으로 종료되는 개념이 아닌 것으로 보입니다.
-하지만 브라우저에서 문제가 되었었던 것이고 지금은 프록시 서버가 gRPC서버와 대리하여 통신을 처리해주기 때문에 현재는 브라우저상에서도 지원하고 있습니다.
-복합적인 http2.0을 사용한다는 차이가 있긴 하지만, gRPC로 통신하는 서버에서 동작하는 프로세스가 URI를 통해서, Application Feature를 Map해놓은 자체로 API라고 부를 수 있기 때문에, API라고 부를 수 있습니다.</p>
+  <section id="http-2">
+<h1><span class="section-number">3. </span>HTTP/2<a class="headerlink" href="#http-2" title="Permalink to this headline"></a></h1>
 </section>
 
 

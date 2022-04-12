@@ -106,7 +106,7 @@ docutils가 다수의 Directives를 제공하는 반면, sphinx는 더 많은 �
 <strong>toctree</strong> Directives는 중앙에 있는 요소이다.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>다른 파일에서 하나의 파일을 단순한 &quot;inclusion&quot;하는 것은 <code class="docutils literal notranslate"><span class="pre">include</span></code> Directives를 통해 가능하다.</p>
+<p>다른 파일에서 하나의 파일을 단순한 “inclusion”하는 것은 <code class="docutils literal notranslate"><span class="pre">include</span></code> Directives를 통해 가능하다.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -114,12 +114,12 @@ docutils가 다수의 Directives를 제공하는 반면, sphinx는 더 많은 �
 </div>
 <section id="toctree">
 <h3>toctree<a class="headerlink" href="#toctree" title="Permalink to this headline"></a></h3>
-<p>이 Directive는 &quot;TOC tree&quot;를 현재 위치에 삽입한다.
-directive body에 주어진 문서의 개별적인 TOCs(&quot;sub-TOC trees&quot;를 포함한)를 사용하여 그리한다.
-관계적인 문서이름들('/'로 시작하지 않는,)는 directive가 일어나는 문서에 대해 상대적이다.
+<p>이 Directive는 “TOC tree”를 현재 위치에 삽입한다.
+directive body에 주어진 문서의 개별적인 TOCs(“sub-TOC trees”를 포함한)를 사용하여 그리한다.
+관계적인 문서이름들(‘/’로 시작하지 않는,)는 directive가 일어나는 문서에 대해 상대적이다.
 절대경로 이름들은, source디렉터리에 대해 상대적이다. 숫자인 <strong>maxdepth</strong> 옵션은 아마, tree의 깊이를 가리키기 위해 주어진다.;
 default로는 모든레벨이 포함된다.</p>
-<p>&quot;TOC tree&quot;의 대표는 개별 아웃풋 포멧에 따라 달라진다.
+<p>“TOC tree”의 대표는 개별 아웃풋 포멧에 따라 달라진다.
 빌더가 다수의 파일을 아웃풋으로 한다면, 그것을 하이퍼링크의 컬렉션으로 취급할 것이다.
 반면, 빌더가 하나의 파일만을 출력한다면, 그것을 문서의 content로 TOC tree에 있는 것을 넣을 것이다.</p>
 <p>이 예제를 보면,(파이톤 docs의 라이브러리 레퍼런스 인덱스에서 취한 것이다.):</p>
@@ -137,7 +137,7 @@ default로는 모든레벨이 포함된다.</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>Table of contents from thos docments are inserted, with a maximum depth of two, that means one nested heading. toctree directives in those doucment are also taken into account</p></li>
-<li><p>Sphinx knows the relative order of the documents. <em>intro</em>, <em>strings</em> and so forth, and it knows that they are children of the shown document, the library index. From this information it generates &quot;next chapter&quot;, &quot;previous chapter&quot; and &quot;parent chapter&quot; links.</p></li>
+<li><p>Sphinx knows the relative order of the documents. <em>intro</em>, <em>strings</em> and so forth, and it knows that they are children of the shown document, the library index. From this information it generates “next chapter”, “previous chapter” and “parent chapter” links.</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -199,7 +199,7 @@ default로는 모든레벨이 포함된다.</p>
    <span class="n">bar</span>
 </pre></div>
 </div>
-<p>&quot;globbing&quot;을 toctree directives에서 사용할 수 있습니다.
+<p>“globbing”을 toctree directives에서 사용할 수 있습니다.
 <em>glob</em> flag-옵션을 주는 걸 통해서요.
 모든 엔트리들은 이후 가능한 문서들의 리스트에 대해서 매치될 것이고,
 매치된 것들은 alphabet순으로 리스트화 될 것 입니다. 예를 들면:</p>
@@ -331,7 +331,7 @@ default로는 모든레벨이 포함된다.</p>
 <span class="o">-</span> <span class="o">...</span> <span class="ow">and</span> <span class="nb">any</span> <span class="n">other</span> <span class="n">lexer</span> <span class="n">alias</span> <span class="n">that</span> <span class="n">Pygments</span> <span class="n">supports</span>
 </pre></div>
 </div>
-<p>만약 설정한 언어의 highlight가 실패하면 (Pygments emits an &quot;error&quot; token), 해당 블록은 전혀 highlight되지 않을 것이다.</p>
+<p>만약 설정한 언어의 highlight가 실패하면 (Pygments emits an “error” token), 해당 블록은 전혀 highlight되지 않을 것이다.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>list of lexer aliases supports is tied to Pygment version. check the version of Pygments!</p>
@@ -503,7 +503,7 @@ inline markup이 term에 허용된다는 점이 있다. 너는 모든 term들에
 </pre></div>
 </div>
 <p>glossary가 정렬되었을 때, 첫번째 term이 sort order를 결정한다.
-만약 &quot;grouping keys&quot;를 <em>general index entries</em> 로 명시하고 싶다면, 'term-key' 를 'term-key : key', 로 작성하면 된다.:</p>
+만약 “grouping keys”를 <em>general index entries</em> 로 명시하고 싶다면, ‘term-key’ 를 ‘term-key : key’, 로 작성하면 된다.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">glossary</span><span class="p">::</span>
 
    <span class="n">term</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">A</span>
@@ -512,10 +512,10 @@ inline markup이 term에 허용된다는 점이 있다. 너는 모든 term들에
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">key</span> <span class="pre">:</span> <span class="pre">value</span></code> 에 오는 value가  grouping에 사용된다. keys는 normailzed하지 않다;
-key &quot;A&quot; 과 &quot;a&quot;은 다른 그룹이다. 모든 &quot;key&quot;의 모든 캐릭터들은 첫문자를 대신하여 사용된다;
-이것은 &quot;Combining character Sequence&quot;와 &quot;Surrogate Pairs&quot; 그룹핑-key로 사용된다.</p>
-<p>in i18n 상황에서, 원본 텍스트만이 &quot;term&quot;을 가진다고 해도, &quot;localized term : key&quot;라고 명시할 수 있다.
-이 경우,  &quot;localized term&quot;은 &quot;key&quot; 그룹으로 카테고리화 된다.</p>
+key “A” 과 “a”은 다른 그룹이다. 모든 “key”의 모든 캐릭터들은 첫문자를 대신하여 사용된다;
+이것은 “Combining character Sequence”와 “Surrogate Pairs” 그룹핑-key로 사용된다.</p>
+<p>in i18n 상황에서, 원본 텍스트만이 “term”을 가진다고 해도, “localized term : key”라고 명시할 수 있다.
+이 경우,  “localized term”은 “key” 그룹으로 카테고리화 된다.</p>
 <dl class="simple">
 <dt>[Normalization_wiki (statisitcs)]_</dt><dd><p>정규화, 통계학과 통계-app에서 <strong>normalization</strong> 은 range of meanings를 가질 수 있다.
 단순한 경우로는, <strong>normalization of ratings</strong> 는 adjusting value measured on different scales to anotinally common scale, often prior to averaging.
@@ -567,7 +567,7 @@ key &quot;A&quot; 과 &quot;a&quot;은 다른 그룹이다. 모든 &quot;key&quo
 </div>
 <p>이 directive는 <strong>5개의 entires를 포함한다.</strong> 그들은 링크가 동작하는 generated index로 변환 될 것이다.
 <code class="docutils literal notranslate"><span class="pre">index</span></code> directives가 cross-reference targets를 그들의 위치에서 생성하기 떄문에,
-그들이 의미하는 것을 가리키는 것(like heading...)을 넣기 전에 entry를 먼저 넣는 것은 당연하다.</p>
+그들이 의미하는 것을 가리키는 것(like heading…)을 넣기 전에 entry를 먼저 넣는 것은 당연하다.</p>
 <p>Possible entry types:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- single
 
@@ -603,8 +603,8 @@ key &quot;A&quot; 과 &quot;a&quot;은 다른 그룹이다. 모든 &quot;key&quo
       entires module; hashlib과, hashlib를 생성한다.
 </pre></div>
 </div>
-<p>&quot;main&quot; index entries를 prefixing with exclmation mark함으로써 mark up 할 수 있다.
-&quot;main&quot; 에 대한 entries-references는 generated index에서 emphasized된다.
+<p>“main” index entries를 prefixing with exclmation mark함으로써 mark up 할 수 있다.
+“main” 에 대한 entries-references는 generated index에서 emphasized된다.
 예를 들어 이 두 페이지들은 아래를 포함한다.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">index</span><span class="p">::</span> Python
 </pre></div>
@@ -614,7 +614,7 @@ key &quot;A&quot; 과 &quot;a&quot;은 다른 그룹이다. 모든 &quot;key&quo
 </pre></div>
 </div>
 <p>이럴 경우 뒤쪽 페이지에대한 backlink가 3개의 backlinks 중에서 emphasized된다.</p>
-<p>index directives가 &quot;single&quot; entries를 containg한다면 아래 shotrcut을 적용해도 좋다.</p>
+<p>index directives가 “single” entries를 containg한다면 아래 shotrcut을 적용해도 좋다.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">index</span><span class="p">::</span> BNF, grammar, syntax, notation
 </pre></div>
 </div>
@@ -638,7 +638,7 @@ Define implicit target name that can be referenced by usign <code class="docutil
 link target을 사용되는 곳에 직접 set할 수 있는 <code class="docutils literal notranslate"><span class="pre">role</span></code> 이 있다.</p>
 <p><code class="docutils literal notranslate"><span class="pre">role</span></code> 의 content는 텍스트안에 유지되고 있고, 텍스트 엔트리로 쓰이는 simple phrase 일 수 있다.
 또한 cross-references의 explict targets처럼 보이는 text와 index entry의 조합일 수도 있다.
-그러한 경우에, &quot;target&quot; 부분은, full entry일 수 있다. 예를 들어:</p>
+그러한 경우에, “target” 부분은, full entry일 수 있다. 예를 들어:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>This is normal reST :index:`paragraph` that contains several
 :index:`index entries &lt;pair: index; entry&gt;`.
 </pre></div>
@@ -677,7 +677,7 @@ ASCII에서, 이것은 A-Z 까지 lower, uppercase로 구성되며, underscore�
 <section id="tables">
 <h2>tables<a class="headerlink" href="#tables" title="Permalink to this headline"></a></h2>
 <ul>
-<li><p>reST's grid table:</p>
+<li><p>reST’s grid table:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+------------------------+------------+----------+----------+</span>
 <span class="o">|</span> <span class="n">Header</span> <span class="n">row</span><span class="p">,</span> <span class="n">column</span> <span class="mi">1</span>   <span class="o">|</span> <span class="n">Header</span> <span class="mi">2</span>   <span class="o">|</span> <span class="n">Header</span> <span class="mi">3</span> <span class="o">|</span> <span class="n">Header</span> <span class="mi">4</span> <span class="o">|</span>
 <span class="o">|</span> <span class="p">(</span><span class="n">header</span> <span class="n">rows</span> <span class="n">optional</span><span class="p">)</span> <span class="o">|</span>            <span class="o">|</span>          <span class="o">|</span>          <span class="o">|</span>
@@ -689,7 +689,7 @@ ASCII에서, 이것은 A-Z 까지 lower, uppercase로 구성되며, underscore�
 </pre></div>
 </div>
 </li>
-<li><p>reST's simple table:</p>
+<li><p>reST’s simple table:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">=====</span>  <span class="o">=====</span>  <span class="o">=======</span>
 <span class="n">A</span>      <span class="n">B</span>      <span class="n">A</span> <span class="ow">and</span> <span class="n">B</span>
 <span class="o">=====</span>  <span class="o">=====</span>  <span class="o">=======</span>
@@ -714,7 +714,7 @@ ASCII에서, 이것은 A-Z 까지 lower, uppercase로 구성되며, underscore�
 <blockquote>
 <div><div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>&quot;csv-table&quot; directive의 &quot;:file:&quot;과 &quot;:url:&quot; 옵션은 잠재적으로 보안문제를 야기합니다.
+<p>“csv-table” directive의 “:file:”과 “:url:” 옵션은 잠재적으로 보안문제를 야기합니다.
 <code class="docutils literal notranslate"><span class="pre">file_insertion_enalbed</span></code> 런타임 세팅을 통해 disabled 가능합니다.</p>
 </div>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">csv-table</span><span class="p">::</span> Frozen Delights!
@@ -747,7 +747,7 @@ ASCII에서, 이것은 A-Z 까지 lower, uppercase로 구성되며, underscore�
 </tr>
 <tr class="row-odd"><td><p>Crunchy Frog</p></td>
 <td><p>1.49</p></td>
-<td><p>If we took the bones out, it wouldn't be
+<td><p>If we took the bones out, it wouldn’t be
 crunchy, now would it?</p></td>
 </tr>
 <tr class="row-even"><td><p>Gannet Ripple</p></td>
@@ -800,7 +800,7 @@ crunchy, now would it?</p></td>
 </tr>
 <tr class="row-odd"><td><p>Crunchy Frog</p></td>
 <td><p>1.49</p></td>
-<td><p>If we took the bones out, it wouldn't be
+<td><p>If we took the bones out, it wouldn’t be
 crunchy, now would it?</p></td>
 </tr>
 <tr class="row-even"><td><p>Gannet Ripple</p></td>

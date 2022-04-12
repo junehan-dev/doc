@@ -127,7 +127,7 @@ there are several features added by sphinx.
 for example, you cna add cross-file references in portable way using <code class="docutils literal notranslate"><span class="pre">ref</span></code> role.</p>
 <blockquote>
 <div><p>if you are viewing the HTML version, you can look at the source for this coument
-use the &quot;Show Source&quot; link in the sidebar</p>
+use the “Show Source” link in the sidebar</p>
 </div></blockquote>
 </section>
 <section id="running-the-build">
@@ -199,7 +199,7 @@ use the &quot;Show Source&quot; link in the sidebar</p>
 complete with markup to create and reference descriptions of there objects.</p>
 </dd>
 </dl>
-<p>most prominent domain is Python domain, example in below...</p>
+<p>most prominent domain is Python domain, example in below…</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">py:function</span><span class="p">::</span> enumerate(sequence [, start=0])
 
 Returns an Iterator that yields tuple of an index and it&#39;s value as a sequence
@@ -208,7 +208,7 @@ Returns an Iterator that yields tuple of an index and it&#39;s value as a sequen
 <dl class="py function">
 <dt class="sig sig-object py" id="enumerate">
 <span class="sig-name descname"><span class="pre">enumerate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start=0</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#enumerate" title="Permalink to this definition"></a></dt>
-<dd><p>Returns an Iterator that yields tuple of an index and it's value as a sequence</p>
+<dd><p>Returns an Iterator that yields tuple of an index and it’s value as a sequence</p>
 </dd></dl>
 
 <dl class="simple">
@@ -222,10 +222,10 @@ Returns an Iterator that yields tuple of an index and it&#39;s value as a sequen
 <p>there is also cross-referencing role for each of there object types.
 <em>this markup will create a link to documentation of ``enumerate()``</em></p>
 <blockquote>
-<div><p>the <a class="reference internal" href="#enumerate" title="enumerate"><code class="xref py py-func docutils literal notranslate"><span class="pre">enumerate()</span></code></a> function can be used for ...</p>
+<div><p>the <a class="reference internal" href="#enumerate" title="enumerate"><code class="xref py py-func docutils literal notranslate"><span class="pre">enumerate()</span></code></a> function can be used for …</p>
 </div></blockquote>
 <p>if Python domain is the defaultone, <code class="docutils literal notranslate"><span class="pre">py:</span></code> can be ommited.
-and also doesn't matter which file contains the actual doc for directive.</p>
+and also doesn’t matter which file contains the actual doc for directive.</p>
 <dl class="simple">
 <dt>Each domain will have special rules for..</dt><dd><ul class="simple">
 <li><p>how the signatures can look like,</p></li>
@@ -270,7 +270,7 @@ therefore, you must add approrpicate path to <code class="docutils literal notra
 <h2>Intersphinx<a class="headerlink" href="#intersphinx" title="Permalink to this headline"></a></h2>
 <p>When you wnat to make links to such sphinx-documents on internet on your doc,
 you can do it with <code class="docutils literal notranslate"><span class="pre">sphinx.ext.Intersphinx</span></code></p>
-<p>to use them, activate it in conf.py by 'sphinx.ext.intersphinx' to extensions list and,
+<p>to use them, activate it in conf.py by ‘sphinx.ext.intersphinx’ to extensions list and,
 <em>set up the ``intersphinx_mapping</em> config value.</p>
 <p>for examlple, to lint to <code class="docutils literal notranslate"><span class="pre">io.open()</span></code> int the python lin intersphinx_mapping,
 setup your <code class="docutils literal notranslate"><span class="pre">intersphinx_mapping</span></code> like:</p>
@@ -281,7 +281,7 @@ setup your <code class="docutils literal notranslate"><span class="pre">intersph
 </div></blockquote>
 <p>and now, you canr write cross-reference like <code class="xref py py-func docutils literal notranslate"><span class="pre">io.open()</span></code>.
 Any cross-ref that has no match will be looked up in documentation sets configured in <code class="docutils literal notranslate"><span class="pre">intersphinx_mapping</span></code>
-also works for some other domain's rols including <code class="docutils literal notranslate"><span class="pre">:ref:</span></code>. not only python...
+also works for some other domain’s rols including <code class="docutils literal notranslate"><span class="pre">:ref:</span></code>. not only python…
 but doesnt work for <code class="docutils literal notranslate"><span class="pre">:doc:</span></code> as that is non domain role.</p>
 </section>
 </section>

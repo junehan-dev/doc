@@ -67,8 +67,8 @@ HTTP 0.9의 기능::
 
 전자메일, 뉴스그룹 프로토콜의 기능을 도입하면서 업데이트가 이루어 졌습니다.
 
-전자메일 HTTP의 기원
-^^^^^^^^^^^^^^^^^^^^
+전자메일: HTTP의 기원
+---------------------
 
 .. code-block:: text
 
@@ -111,23 +111,51 @@ HTTP 0.9의 기능::
    :encoding: latin-1
 
 
-Body of http
-------------
-
-Body의 표현, 획득 방법
+Header의 전송과 수신
+--------------------
  
+.. note::
+
    - Header 끝에 빈 줄을 넣으면 그 줄 아래로 전부 바디가 됩니다.
    - 바디 기준으로 읽어야할 바이트 수는 Header.Content-Lenght에 명시되어 있습니다.
 
 *Content-Type*
-   | 바디의 데이터 종류에 대해 특정할 때 지정된 MIME-식별자타입을 사용합니다.
-   | MIME타입이 아닌 데이터가 있을 경우 브라우저의 추측이 이루어 질수 있는데, 보안의
+   바디의 데이터 종류에 대해 특정할 때 지정된 *MIME-식별자타입*\을 사용합니다.
+
+*MIME Type*
+   | 어떤형식의 데이터로 body를 해석해야하는지 정형화된 규약이 정의되어 있습니다.
+   | (https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
+   | 전자메일을 위해 만들어 졌으며, 이는 웹(www)이 등장하기 훨씬 이전의 규격입니다.
+   | 당시에는 POSTSCRIPT, TEX같은 텍스트파일들을 가정했지만, 지금헤더에서처럼 동일하게 *X-*\로 시작하는 키워드로 미지의 대상을 기술 할 수 있었습니다.
+   | *다음과 같은 헤더를 전송해 브라우저가 추측하도록 지시하지 않는 것이 현재 주류의 방법입니다.*
+      | ``X-Content-Type-Options: nosniff``
+
+
+뉴스그룹: HTTP의 기원
+---------------------
+
+뉴스 그룹은 분산 아키텍처로 되어 있습니다.
+
+::
+
+   복수의 서버가 master/slave구조로 역할이 분배되어 있습니다.
+   슬레이브 서버 또한 마스터 서버에 접속해 정보를 *shard db* 같은 개념으로 가져왔던 것으로 보입니다.
+   이 계층구조 서버간의 통신 프로토콜이 *NNTP*\[*]입니다.
+   뉴스그룹은 method와 status code 두 기능을 남겨주었습니다.
+
+Method
+^^^^^^
+
+.. todo::
+
+   뉴스그룹/메서드, 스테이터스 코드
 
 DNS Server
 ----------
 
 우리가 주소창에 문자로 구성된 Domain name을 입력했을 때,
 먼저 ISP가 가진 DNS resolver를 통해 .com, .org와 같은 도메인의 정보담당하는 서버에게서 해당 domain name정보에 대한 담당주소지를 할당 받을 수 있습니다.
+
 
 전화번호부가 권역 규모별로 나눠져있는 것과 같습니다.
 
@@ -136,10 +164,11 @@ DNS Server
 .. image:: https://d1.awsstatic.com/Route53/how-route-53-routes-traffic.8d313c7da075c3c7303aaef32e89b5d0b7885e7c.png
 
 1. 브라우저를 열고 주소를 www.example.com으로 입력합니다.
-2. www.example.com 은 DNS resolver에게 향하는데, 주로 IPS가 관리하는 서버입니다.
+2. www.example.com 은 DNS resolver에게 향하는데, 주로 ISP가 관리하는 서버입니다.
 3. DNS resolver는 DNS root name server로 향하게 합니다.
 4. 이때 TLD, .com에 대한 name server가 example에 대한 주소를 발견하고 해당 주소가 aws route53 name server과 담당하고 있다는 것으로 응답을 종료합니다.
 5. Route 53 네임 서버가 example.com의 hosted zone을 탐색하고, www.example.com레코드를 발견합니다.
-   관련 정보, IP주소 같은 정보를 취득 후에 DNS Resolver에게 전달하는 것으로 응답을 종료합니다.
-6. 이것으로 해당 IPv4주소는 유한한 정보이기 때문에, 국가별로 구매한 번호의 Range가 있습니다. 그런 기본원리를 바탕으로 network를 통해 이 주소에 대한 길을 따라 요청정보가 패킷단위로 분산되어 전달되고, 마찬가지로 응답정보도 분산되어 돌아오는 것을 누적시켜 브라우저에 최종적으로 출력하는 것으로 도메인에 대한 해석이 종료됩니다.
+   관련 정보, IP주소 같은 정보를 취득 후에 DNS Resolver에게 전달하는 것으로 응답을 종료하고 사용자는 IP주소를 획득하게 됩니다.
    
+.. [*] Network News Transfer Protocol, 네트워크 뉴스 전송 프로토콜
+
