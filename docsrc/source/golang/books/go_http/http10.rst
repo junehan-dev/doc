@@ -58,9 +58,6 @@ HTTP/0.9
 HTTP/0.9 to HTTP/1.0
 --------------------
 
-.. todo::
-
-   go/http/http1.0
 
 
 DNS Server
