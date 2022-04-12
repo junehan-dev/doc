@@ -55,4 +55,32 @@ HTTP/0.9
    <html><body>hello</body></html>
    * Closing connection 0
 
+HTTP/0.9 to HTTP/1.0
+--------------------
 
+.. todo::
+
+   go/http/http1.0
+
+
+DNS Server
+----------
+
+우리가 주소창에 문자로 구성된 Domain name을 입력했을 때,
+먼저 ISP가 가진 DNS resolver를 통해 .com, .org와 같은 도메인의 정보담당하는 서버에게서 해당 domain name정보에 대한 담당주소지를 할당 받을 수 있습니다.
+
+전화번호부가 권역 규모별로 나눠져있는 것과 같습니다.
+
+사용하는 도메인 네임을 구매한 회사가 있다면, ISPN에서 해당 도메인 네임을 관리하는 회사의 서버까지 방문한 뒤, 해당 도메인을 IP주소로 전달 받게 됩니다.
+
+.. image:: https://d1.awsstatic.com/Route53/how-route-53-routes-traffic.8d313c7da075c3c7303aaef32e89b5d0b7885e7c.png
+
+
+1. 브라우저를 열고 주소를 www.example.com으로 입력합니다.
+2. www.example.com 은 DNS resolver에게 향하는데, 주로 IPS가 관리하는 서버입니다.
+3. DNS resolver는 DNS root name server로 향하게 합니다.
+4. 이때 TLD, .com에 대한 name server가 example에 대한 주소를 발견하고 해당 주소가 aws route53 name server과 담당하고 있다는 것으로 응답을 종료합니다.
+5. Route 53 네임 서버가 example.com의 hosted zone을 탐색하고, www.example.com레코드를 발견합니다.
+   관련 정보, IP주소 같은 정보를 취득 후에 DNS Resolver에게 전달하는 것으로 응답을 종료합니다.
+6. 이것으로 해당 IPv4주소는 유한한 정보이기 때문에, 국가별로 구매한 번호의 Range가 있습니다. 그런 기본원리를 바탕으로 network를 통해 이 주소에 대한 길을 따라 요청정보가 패킷단위로 분산되어 전달되고, 마찬가지로 응답정보도 분산되어 돌아오는 것을 누적시켜 브라우저에 최종적으로 출력하는 것으로 도메인에 대한 해석이 종료됩니다.
+   
