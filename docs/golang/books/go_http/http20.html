@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. gRPC와 HTTP/2 &mdash; blogable_doc 0.1a documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Python things" href="../../../python/index.html" />
+    <link rel="prev" title="2. Semantics of Http/1.1" href="http11_semantics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> blogable_doc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../clang/index.html">C language families</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">go language</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">books for golang</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">network with go lang</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="http10.html">1. Syntax of Http/1.0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="http11_semantics.html">2. Semantics of Http/1.1</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">3. gRPC와 HTTP/2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/index.html">Python things</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">blogable_doc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">go language</a> &raquo;</li>
+          <li><a href="../index.html">books for golang</a> &raquo;</li>
+          <li><a href="index.html">network with go lang</a> &raquo;</li>
+      <li><span class="section-number">3. </span>gRPC와 HTTP/2</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/golang/books/go_http/http20.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="grpc-http-2">
+<h1><span class="section-number">3. </span>gRPC와 HTTP/2<a class="headerlink" href="#grpc-http-2" title="Permalink to this headline"></a></h1>
+<p>기존의 HTTP는 문자열기반 <em>application/octet-stream</em>, 8비트 단위로 최소 의미를 지니는 데이터라는 의미입니다.</p>
+<p>HTTP/2의 가장 큰 변화는 텍스트기반 프로토콜에서 바이너리 기반 프로토콜로 변화했다는 점 입니다. 아마 위 내용과의 차이가 있지 않을까 생각하게 됩니다.</p>
+<p>가장 흔한 사용 시나리오는 서비스들을 microservices 스타일 아키텍쳐로 배치하고 그들을 연결할 때 사용하거나, 모바일 디바이스 client를 backend서비스로 연결할 때 사용합니다.</p>
+<p>gRPC의 복합적인 HTTP/2의 사용은 gRPG 클라이언트를 브라우저에서 구현할 수 없도록 만들었습니다만,
+대신 gRPC-web proxy를 사용하여 브라우저가 이해할 수 있도록 방법이 content-type에 대해 분산하여 응답을 받는 것으로 브라우저 상에서 해석 가능한 프로토콜이 되었습니다.</p>
+<img alt="https://grpc.io/img/grpc-web-proxy.png" src="https://grpc.io/img/grpc-web-proxy.png" />
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>gRPC를 이해하기 위해선 HTTP2와 그 중심에 있는 SPRD등의 즉 google이 proposal해서 수용된 것들에 대해 이해가 선행됩니다. RABBIT HOLE이다~ 돔황챠!</p>
+</div>
+<p>기존의 RPC가 일반 http1.1를 데이터 프로토콜로 사용하고 있었고 서버와도 http1.1로 통신하고 있었으나,
+gRPC는 2.0강제하고, 1회의 통신으로 종료되는 개념이 아닌 것으로 보입니다.
+하지만 브라우저에서 문제가 되었었던 것이고 지금은 프록시 서버가 gRPC서버와 대리하여 통신을 처리해주기 때문에 현재는 브라우저상에서도 지원하고 있습니다.
+복합적인 http2.0을 사용한다는 차이가 있긴 하지만, gRPC로 통신하는 서버에서 동작하는 프로세스가 URI를 통해서, Application Feature를 Map해놓은 자체로 API라고 부를 수 있기 때문에, API라고 부를 수 있습니다.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="http11_semantics.html" class="btn btn-neutral float-left" title="2. Semantics of Http/1.1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../python/index.html" class="btn btn-neutral float-right" title="Python things" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, junehan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
