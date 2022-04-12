@@ -110,12 +110,18 @@ HTTP 0.9의 기능::
    :lines: 1-3
    :encoding: latin-1
 
-Receiving Header 
-^^^^^^^^^^^^^^^^
 
-.. todo::
+Body of http
+------------
 
-   1.4.2 헤더 수신
+Body의 표현, 획득 방법
+ 
+   - Header 끝에 빈 줄을 넣으면 그 줄 아래로 전부 바디가 됩니다.
+   - 바디 기준으로 읽어야할 바이트 수는 Header.Content-Lenght에 명시되어 있습니다.
+
+*Content-Type*
+   | 바디의 데이터 종류에 대해 특정할 때 지정된 MIME-식별자타입을 사용합니다.
+   | MIME타입이 아닌 데이터가 있을 경우 브라우저의 추측이 이루어 질수 있는데, 보안의
 
 DNS Server
 ----------
