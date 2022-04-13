@@ -128,7 +128,7 @@ Header의 전송과 수신
    | 전자메일을 위해 만들어 졌으며, 이는 웹(www)이 등장하기 훨씬 이전의 규격입니다.
    | 당시에는 POSTSCRIPT, TEX같은 텍스트파일들을 가정했지만, 지금헤더에서처럼 동일하게 *X-*\로 시작하는 키워드로 미지의 대상을 기술 할 수 있었습니다.
    | *다음과 같은 헤더를 전송해 브라우저가 추측하도록 지시하지 않는 것이 현재 주류의 방법입니다.*
-      | ``X-Content-Type-Options: nosniff``
+   | ``X-Content-Type-Options: nosniff``
 
 
 뉴스그룹: HTTP의 기원
@@ -146,9 +146,82 @@ Header의 전송과 수신
 Method
 ^^^^^^
 
-.. todo::
+| HTTP의 경우는 파일 시스템 같은 설계철학으로 만들어졌습니다.
 
-   뉴스그룹/메서드, 스테이터스 코드
+   :GET: Get Request for header, content.
+   :HEAD: Get Request for header.
+   :POST: Post Request for New document create.
+   :PUT: Update Request for existing document on url.
+   :DELETE: Delete Request for document on url and url either.
+
+| PUT 과 DELETE는 1.0이후에도 유지되었지만, 구현이 강제되는 메서드는 아닌 옵션기능입니다.
+| 실제 위 메서드로 요청을 놸 수 있게 된 것은 ``XMLHttpRequest`` 가 지원되고 나서부터 입니다.
+
+   ``curl --http1.0 -X PUT http://examples.com/document/2324/ -d title="new document title"`` 
+
+Status code
+^^^^^^^^^^^
+
+| 스테이터스 코드도 뉴스그룹에서 가져운 기능 중 하나입니다.
+
+   :1\*\*: Set status for *Keep on processing.*
+   :2\*\*: Set status for *positive output.*
+   :3\*\*: Set status for *giving an order to a client like redirect to, or need to be cached.*
+   :4\*\*: Set status for *negative output mainly originated by client's request.*
+   :5\*\*: Set status for *negative output mainly originated by internal server's process.*
+
+Redirections
+------------
+
+.. list-table:: 300 of Statuscode
+   :header-rows: 1
+
+   * - Status Code
+     - Method change
+     - Permanent
+     - Cache result
+     - DESC
+   * - 301 Moved Permanently
+     - Required
+     - Permanent
+     - Yes
+     - domain transport, website moved, https
+   * - 302 Found
+     - Required
+     - Temporary
+     - Allowed (if)
+     - Temporary managed, mobile based
+   * - 303 See Other
+     - Allowed (if)
+     - Permanent
+     - No 
+     - Redirect after Login 
+   * - 307 Temporary Redirect
+     - 
+     - Temporary
+     - Allowed
+     - 302 with no redirect
+   * - 300 Multiple Choices
+     -
+     - 
+     - Yes
+     - Recommandations
+
+Response Request Body
+---------------------
+
+**Header fields descripting body**
+
+   :Content-Length: Body byte length
+   :Content-Encoding: 사용된 압축 알고리즘(content-type gzip, ...)
+   :Content-Type: 어떤 형식의 데이터 인가? 해석방식, content-negotiation
+
+``curl`` **command body acquiring options**
+
+:``--data-ascii``: data url-encoded 
+:``--data-urlencode``: data non url-encoded
+:``--data-binary``: Binary data
+:``-T <filename>``: Data input from file
 
 DNS Server
 ----------
@@ -171,4 +244,5 @@ DNS Server
    관련 정보, IP주소 같은 정보를 취득 후에 DNS Resolver에게 전달하는 것으로 응답을 종료하고 사용자는 IP주소를 획득하게 됩니다.
    
 .. [*] Network News Transfer Protocol, 네트워크 뉴스 전송 프로토콜
+
 
