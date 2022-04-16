@@ -109,10 +109,385 @@ Multipart form test
 
       --------------------------8eef5e797ff1fda2--
 
-Redirect using Form
+.. note::
+
+   text/plain
+
+   form의 encoding type은 기본적으로 www-form-urlencoded,
+   파일을 전송하고 싶을 때: multipart/form-data.
+
+   text/plain은 개행을 통해 각 값을 구분해 전송합니다.
+
+   ```
+   title=The Art of community
+   author=john bacon
+   ```
+
+   서비스쪽이 보안이 약할 때 문제를 일으키는 경우가 있다고 합니다.
+
+
+
+
+Content negotiation
 -------------------
+   서버와 클라이언트간 통신을 최적화 하고자 하나의 요청에서 최고의 설정을 공유하는 시스템
+
+.. csv-table::
+   :header: "Request Header", "Response Header", "negotiation target"
+
+   "Accept", "Content-Type", "MIME Type"
+   "Accept-Language", "Content-Type / html tag", "language"
+   "Accept-Charset", "Content-Type", "character set"
+   "Accept-Encoding", "Content-Encoding", "compression type"
+
+File type 결정
+^^^^^^^^^^^^^^
+
+``Accept: text/html,application/xml;q=0.9,image/webp,*/*;p=0.8``
+
+   - image/webp
+   - \*/\*;q=0.8
+
+::
+
+   quality value는 0~1 사이의 수치로, 기본 1.0일 경우에는 명시하지 않습니다.
+   0.9의 우선순위로 webp를 요청하고, 그렇지 않으면 다른 포맷(0.8)을 다음으로 두고 있는 표현입니다.
+
+
+Charset 결정
+^^^^^^^^^^^^
+
+``Accept-Charset: window-949,utf-8;q=0.7,*;q=0.3``
+
+   브라우저가 모든 charest-encoder를 내장하고 있기 때문에, 협상이 필요없어 졌습니다.
+
+``Content-Type: text/html; charset=UTF-8``
+
+   HTML의 경우 문서 안에 쓸 수도 있습니다.
+
+1. ``<meta http-equiv="Content-Type" content="text/html; charset=UTF-8>``
+2. ``<meta charset="UTF-8">``
+
+압축을 이용한 통신속도 향상
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+통신에 걸리는 시간보다 압축과 해체가 짧은 시간에 이루어지므로, 압축을 함으로써 웹페이지를 표시할 때 걸리는 전체적인 처리시간을 줄일 수 있습니다.
+
+PROS::
+
+   - 전력소비 감소
+   - 데이터 사용 비용 절감
+
+
+압축에 대한 negotiation은 header안에서 명시합니다.
+
+``Accept-Encoding: deflate, gzip``
+
+.. literalinclude:: srcs/curl_cmds/http10_compress.sh
+   :language: bash
+   :encoding: latin-1
+
+.. code-block:: bash
+
+   > GET / HTTP/1.0
+   > Host: 127.0.0.1:18888
+   > User-Agent: curl/7.82.0
+   > Accept: */*
+   > Accept-Encoding: gzip, br
+   >
+   * Mark bundle as not supporting multiuse
+   * HTTP 1.0, assume close after body
+   < HTTP/1.0 200 OK
+   < Date: Fri, 15 Apr 2022 11:34:53 GMT
+   < Content-Length: 32
+   < Content-Type: text/html; charset=utf-8
+
+- 서버가 압축 content를 지원하지 않기 떄문에 차이가 발생하지 않았을 뿐 요청을 정상적으로 처리되었습니다.
+- 서버가 gzip을 지원했을 경우, 아래와 같은 응답을 반환합니다.
+
+   .. code-block:: bash
+
+      < Content-Encoding: gzip
+      < Content-Length: (zipped size of bytes)
+
+- gzip보다 효율이 좋은 *Brotil*\는 구글의 proposal로 등장하였습니다
+
+   *HTTP헤더를 사용해 1왕복을 데이터 교환 단계에서 하위 호환성을 유지하면서도, 서로 최적의 통신을 할 수 있게 시스템이 정비되었습니다.*
+
+.. seealso::
+
+   sdch(Shared Dictionary Compressing for HTTP), 는 IANA비등록 압축알고리즘이며, 중복되는 문구를 공유 사전으로 사용하여 통신량을 대폭 줄일 수 있는 알고리즘입니다.
+   이런 공유 방식은 HTTP/2의 헤더부분 압축에도 사용됩니다.
+
+Cookie
+------
+
+쿠키란 웹사이트의 정보를 브라우저에 개별 domain에 대해서 저장하는 작은 파일입니다.
+
+.. code-block:: bash
+
+   response:
+
+   Set-Cookie: LAST_ACCESS_DATE=Jul/31/2016
+   Set-Cookie: LAST_ACCESS_TIME=12:04
+   ----------------------------
+   client:
+
+   Cookie: LAST_ACCESS_DATE=Jul/31/2016
+   Cookie: LAST_ACCESS_TIME=12:04
+
+set-cookie라는 약속된 헤더를 통해서 key-value pair를 저장하고,
+
+다음 요청시에 쿠키정보를 포함한 request를 전송하는 것으로 상태를 이어갈 수 있습니다.
+
+.. literalinclude:: srcs/01_http10/02_coookie.go
+   :language: go
+   :encoding: latin-1
+
+.. literalinclude:: srcs/curl_cmds/http10_cookie.sh
+   :language: bash
+   :encoding: latin-1
+
+.. code-block:: bash
+
+   -----------------FIRST: NO COOKIE
+   > GET / HTTP/1.0
+   > Host: 127.0.0.1:18888
+   > User-Agent: curl/7.82.0
+   * HTTP 1.0, assume close after body
+
+   < HTTP/1.0 200 OK
+   * Added cookie VISIT="TRUE" for domain 127.0.0.1, path /, expire 0
+   < Set-Cookie: VISIT=TRUE
+   <
+   <html><body>FIRST VISIT!!</body></html>
+   * Closing connection 0
+
+   ---------------SECOND: YEP COOKIE
+   > GET / HTTP/1.0
+   > Host: 127.0.0.1:18888
+   > User-Agent: curl/7.82.0
+   > Cookie: VISIT=TRUE
+   * HTTP 1.0, assume close after body
+
+   < HTTP/1.0 200 OK
+   * Replaced cookie VISIT="TRUE" for domain 127.0.0.1, path /, expire 0
+   < Set-Cookie: VISIT=TRUE
+   < Date: Fri, 15 Apr 2022 12:35:19 GMT
+   < Content-Length: 35
+   < Content-Type: text/html; charset=utf-8
+   <
+   <html><body>VISITED~</body></html>
+   * Closing connection 0
+
+.. important::
+
+   *HTTP*는 *statless*를 기반으로 개발되었지만, *cookie*를 이용하면 서버가 상태를 유지하는 *Stateful*\처럼 보이게 서비스를 제공할 수 있습니다.
+
+쿠키의 잘못된 사용법
+^^^^^^^^^^^^^^^^^^^^
+
+.. danger::
+
+   - 쿠키 보관이 클라이언트에서 임의적으로 이루어지고 접근이 쉽기 떄문에 조작의 가능성이 매우 높다.
+   - 서버의 지시대로 보관기간을 꼭 지키지는 않는다.
+   - 암호화 되어도 일단 획득이 너무 쉽다는 것 자체가 문제입니다.
+
+따라서 사라져도 문제가 없는 정보나, 언제든 복원할 수 있는 정보를 저장하는 용도로 적합합니다.
+
+.. caution::
+
+   - 쿠키의 최대 크기는 4KB사양으로 정해져 있어, 더 보낼 수는 없습니다.
+   - 통신량의 증가는 요청과 응답속도 모두에 영향이 있습니다.
+
+secure속성을 부여하면, HTTPS의 암호화된 데이터로 쿠키를 전송하지만, HTTP에서는 평문으로 전송됩니다.
+
+   - 정보를 넣을 때는 서명이나 암호화처리가 불가피합니다.
+
+쿠키에 추가 제약속성
+^^^^^^^^^^^^^^^^^^^^
+
+쿠키를 보낼 곳을 제어하거나, 쿠키의 수명을 설정하는 등의 기술이 정의되어 있습니다.
+
+.. tip::
+
+   HTTP클라이언트는 이 속성을 해석해 쿠키 전송을 제어할 책임이 있습니다.
+
+- *속성*\은 대소문자를 구분하지 않습니다.
+- *속성*\은 *';'*\기호를 사용해 얼마든지 나열 가능합니다.
+
+
+:Expires, Max-Age: 쿠키의 수명을 설정
+
+   - Max-Age는 초단위 지정
+   - Expires는 *Wed, 09 Jun, 2021 10:18:14GMT* 같은 형식의 문자열을 해석합니다.
+
+:Domain: 클라이언트에서 쿠키를 전송할 대상 서버 domain
+
+   - 생략시, 발행한 서버에 대해서 적용이 됩니다.
+
+:Path: 클라이언트에서 쿠키를 전송할 대상 서버 path
+
+   - 생략시, 쿠키를 발행한 서버 Path
+
+:Secure: https프로토콜을 사용할 때만 클라이언트는 서버로 쿠키를 전송한다.
+
+   - 쿠키는 매핑된 URL을 대상으로 전송처를 정하기 때문에,
+     DNS해킹으로 URL을 사칭하면 의도치 않은 서버에 쿠키를 전송할 위험이 있습니다.
+   - DNS해킹은 무료 와이파이 서비스등으로 간단히 가능합니다.
+   - Secure속성을 추가하면 http접속일때는 브라우저가 경고를 하고 접속하지 않아 정보 유출을 막게됩니다.
+
+:HttpOnly: 쿠키를 자바스크립트로 다룰 수 없도록 한다.
+
+   - 이 속성을 붙이면 자바스크립트 엔진으로부터 쿠키를 감출 수 있습니다.
+   - *Cross-site-scripting*\등 자바스크립트가 실행하는 보안위험에 대한 방어가 가능합니다.
+
+:SameSite: RFC의 규약에 존재하지 않으며 크롬브라우저에서 도입한 속성으로 출처의 도메인으로 전송하도록 브라우저가 강제합니다.
+
+authorization and session
+-------------------------
+
+Basic Auth
+^^^^^^^^^^
+
+Basic 인증
+   유저명과 password를 BASE64인코딩 처리합니다.
+   변환가능하므로, 그대로 원본을 추출할 수 있습니다.
+
+   .. caution::
+
+      SSL/TLS 통신을 사용하지 않은 채로 감청시에 손쉽게 유출됩니다.
+
+.. literalinclude:: srcs/curl_cmds/http10_auth_basic.sh
+   :language: bash
+   :encoding: latin-1
+
+.. code-block:: bash
+
+   * Connected to 127.0.0.1 (127.0.0.1) port 18888 (#0)
+   * Server auth using Basic with user 'june'
+   > GET / HTTP/1.0
+   > Host: 127.0.0.1:18888
+   > Authorization: Basic anVuZTpwd2QxMjM0
+   > User-Agent: curl/7.82.0
+   > Accept: */*
+
+Digest Auth
+^^^^^^^^^^^
+
+Digest 인증
+   hash function(암호화는 쉽지만 복호화는 어렵게)을 이용합니다.
+   보호된 영역에 접속을 시도할 시에, 복호화에 실패하면 *401  Unauthorized*\의 응답을 반환합니다.
+
+- *RESPONSE HEADER*
+
+   ``WWW-authenticated: Digest realm="영역명", nonce="1234567890", algorithm=MDS, qop="auth"``
+
+   DESC
+
+      - realm: 보호 영역 명칭
+      - nonce: 서버가 매번 생성하는 random data
+      - qop: 보호수준
+
+      클라이언트에서는 *nonce*\와 주어진 값을 통해 생성한 **cnonce**\로 다음과 같은 BODY를 구합니다.
+
+- *RESPONSE BODY*
+
+   .. code-block:: go
+
+      A1 = USERNAME ":" realm ":" "PASSWORD"
+      A2 = HTTP METHOD ":" Content URI
+      response = MD5( MD5(A1) ":" nonce ":" nc ":" cnonce ":" qop ":" MD5(A2)
+
+   DESC
+
+      - nc: 전송횟수로 16진수 8자리(4byte)로 표현됩니다.
+
+
+      클라이언트에서는 생성한 **cnonce**\와 계산으로 구한 response를 모아 다음과 같은 header를 포함하는 request를 구성합니다.
+
+- *REQUEST HEADER*
+
+   .. code-block:: go
+
+      Authorization: Digest username="username", realm="area name"
+            nouce="1234567890", url"/scret.html", algorithm=MD5,
+            qop=auth, nc=00000001, cnounce="0987654321",
+            response="9d47a3f8b2d5c"
+   
+
+   DESC
+
+      - 서버측에서도 이 헤더의 정보와 서버에 저장된 유저명 패스워드로 같은 계산을 실시하여 비교합니다.
+
+         클라이언트가 재발송한 요청과 동일한 response body가 계산되면, 사용자가 정확하게 유저명과 패스워드릴 입력했음을 의미합니다.
+
+      - **이 과정으로 유저명과 패스워드 자체를 요청에 포함하지 않고 사용자를 올바르게 인증하였습니다.**
+
+- digest server and client
+
+   .. literalinclude:: srcs/01_http10/03_digest.go
+      :language: go
+      :encoding: latin-1
+
+   .. literalinclude:: srcs/curl_cmds/http10_auth_digest.sh
+      :language: bash
+      :encoding: latin-1
+
+   .. code-block:: bash
+
+      *   Trying 127.0.0.1:18888...
+      * Connected to 127.0.0.1 (127.0.0.1) port 18888 (#0)
+      * Server auth using Digest with user 'june'
+      > POST /digest HTTP/1.0
+      > Host: 127.0.0.1:18888
+      > User-Agent: curl/7.82.0
+      > Accept: */*
+      > Content-Length: 0
+      > Content-Type: application/x-www-form-urlencoded
+      >
+      * Mark bundle as not supporting multiuse
+      * HTTP 1.0, assume close after body
+      < HTTP/1.0 401 Unauthorized
+      < Www-Authenticate: Digest                              realm="Secret Zone",                            nonce="TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd",                          algorithm=MD5,                          qop="auth"
+      < Date: Sat, 16 Apr 2022 05:52:42 GMT
+      < Content-Length: 0
+      <
+      * Closing connection 0
+      * Issue another request to this URL: 'http://127.0.0.1:18888/digest'
+      * Hostname 127.0.0.1 was found in DNS cache
+      *   Trying 127.0.0.1:18888...
+      * Connected to 127.0.0.1 (127.0.0.1) port 18888 (#1)
+      * Server auth using Digest with user 'june'
+      > POST /digest HTTP/1.0
+      > Host: 127.0.0.1:18888
+      > Authorization: Digest username="june", realm="Secret Zone", nonce="TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd", uri="/digest", cnonce="NmIwMjc5NDc5ODkxYmI4MzNiOWVmNTEyMjdjYjgyNDI=", nc=00000001, qop=auth, response="f6159fc829fdce222d65cffb4d9423b3", algorithm=MD5
+      > User-Agent: curl/7.82.0
+      > Accept: */*
+      > Content-Length: 18
+      > Content-Type: application/x-www-form-urlencoded
+      >
+      * Mark bundle as not supporting multiuse
+      * HTTP 1.0, assume close after body
+      < HTTP/1.0 200 OK
+      < Date: Sat, 16 Apr 2022 05:52:42 GMT
+      < Content-Length: 38
+      < Content-Type: text/html; charset=utf-8
+      <
+      <html><body>secret page</body></html>
+      * Closing connection 1
+
+   1. 요청이 auth digest의 경우 아래와 같은 헤더를 부여받아 response를 받는다.
+
+      ``Www-Authenticate: Digest realm="Secret Zone", nonce="TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd", algorithm=MD5, qop="auth"``
+
+   2. 다시 요청을 보낼때 아래와 같이 ``cnonce`` , ``reponse`` 를 추가하여 header.Authorization을 전송하는데, 코드상에서 이것을 해석하는 부분은 비어있지만, MD5알고리즘으로 정해진 임의 규칙에 따라 암호화 했다는 것을 알 수 있다.
+
+      ``Authorization: Digest username="june", realm="Secret Zone", nonce="TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd", uri="/digest", cnonce="NmIwMjc5NDc5ODkxYmI4MzNiOWVmNTEyMjdjYjgyNDI=", nc=00000001, qop=auth, response="f6159fc829fdce222d65cffb4d9423b3", algorithm=MD5
+
+쿠키를 통한 세션 관리
+^^^^^^^^^^^^^^^^^^^^^
 
 .. todo::
- 
-   220413.http1.0/semantics/form redirect/
 
+   쿠키를 통한 세션 관리
