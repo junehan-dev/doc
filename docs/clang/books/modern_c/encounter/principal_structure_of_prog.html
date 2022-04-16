@@ -73,7 +73,7 @@
           <li><a href="index.html"><span class="section-number">1. </span>Encouter</a> &raquo;</li>
       <li><span class="section-number">1.1. </span>The Principal structure of a program</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../../_sources/clang/books/modern_c/encounter/02.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/clang/books/modern_c/encounter/principal_structure_of_prog.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,21 +83,30 @@
              
   <section id="the-principal-structure-of-a-program">
 <h1><span class="section-number">1.1. </span>The Principal structure of a program<a class="headerlink" href="#the-principal-structure-of-a-program" title="Permalink to this headline"></a></h1>
-<p>이 장에서 다루는 내용은:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">C</span> <span class="n">문법</span>
-<span class="o">-</span> <span class="n">identifiers의</span> <span class="n">정의하는</span> <span class="n">법</span>
-<span class="o">-</span> <span class="n">objects의</span> <span class="n">정의하는</span> <span class="n">법</span>
-<span class="o">-</span> <span class="n">컴파일러에게</span> <span class="n">statements로</span> <span class="n">Instructing하는</span> <span class="n">법</span>
-</pre></div>
-</div>
-<p>C 프로그램에서 고려해야 할 측면:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">syntactical</span> <span class="n">aspect</span> <span class="p">(</span><span class="n">형태소의</span><span class="p">)</span>
-<span class="o">-</span> <span class="n">semantic</span> <span class="n">aspect</span> <span class="p">(</span><span class="n">의미적인</span><span class="p">)</span>
-   <span class="o">-</span> <span class="n">declarative</span>
-   <span class="o">-</span> <span class="n">definitions</span> <span class="n">of</span> <span class="n">objects</span>
-   <span class="o">-</span> <span class="n">statements</span>
-</pre></div>
-</div>
+<p>이 장에서 다루는 내용은</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>C 문법</p></li>
+<li><p>identifiers의 정의하는 법</p></li>
+<li><p>objects의 정의하는 법</p></li>
+<li><p>컴파일러에게 statements로 Instructing하는 법</p></li>
+</ul>
+</div></blockquote>
+<p>C 프로그램에서 고려해야 할 측면</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>syntactical aspect (형태소의)</p></li>
+<li><dl class="simple">
+<dt>semantic aspect (의미적인)</dt><dd><ul>
+<li><p>declarative</p></li>
+<li><p>definitions of objects</p></li>
+<li><p>statements</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
 <section id="id1">
 <h2><span class="section-number">1.1.1. </span>문법요소<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
 <dl class="field-list">
@@ -125,11 +134,42 @@
 <div><p><code class="docutils literal notranslate"><span class="pre">_t</span></code>가 뒤에 붙는데, 이것은 C의 컨벤션중 하나로 타입에 대한 명시를 분명히 사용자에게 전달하는 것이다.</p>
 </div></blockquote>
 </li>
-<li><p>Functions</p></li>
-<li><p>Constants</p></li>
 </ul>
 </dd>
+<dt class="field-even">Functions</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">main,</span> <span class="pre">printf</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code>function’s in-turn(뒤따르는)는 defined이다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>main 에 대한 declaration뒤에 block이 뒤따라서, 어떤 해옫ㅇ을 해야하는 지를 명시한다.</p></li>
+<li><p>main은 starting point of execution이기 때문에 항상 존재해야한다.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+<dt class="field-odd">Operators</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">++,</span> <span class="pre">&lt;,</span> <span class="pre">=,</span> <span class="pre">*</span></code></p>
+</dd>
 </dl>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Three main semantic categories that C distinguishes:</p>
+<ul class="simple">
+<li><p>declarations (선언)</p></li>
+<li><p>definitions (정의)</p></li>
+<li><p>statements (진술)</p></li>
+</ul>
+</div>
+</section>
+<section id="declarations">
+<h2><span class="section-number">1.1.2. </span>Declarations<a class="headerlink" href="#declarations" title="Permalink to this headline"></a></h2>
+<p>어떤 name의 정의에 뒤따라서 무엇을 의미하는지 컴파일러에게 전달한다.</p>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>C/modernc/Declarations</p>
+</div>
 </section>
 </section>
 

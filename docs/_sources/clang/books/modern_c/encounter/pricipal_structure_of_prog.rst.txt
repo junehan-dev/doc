@@ -1,14 +1,14 @@
 The Principal structure of a program
 ====================================
 
-이 장에서 다루는 내용은::
+이 장에서 다루는 내용은
 
    - C 문법
    - identifiers의 정의하는 법
    - objects의 정의하는 법
    - 컴파일러에게 statements로 Instructing하는 법
 
-C 프로그램에서 고려해야 할 측면::
+C 프로그램에서 고려해야 할 측면
 
    - syntactical aspect (형태소의)
    - semantic aspect (의미적인)

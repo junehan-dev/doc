@@ -483,7 +483,7 @@ Digest 인증
 
    2. 다시 요청을 보낼때 아래와 같이 ``cnonce`` , ``reponse`` 를 추가하여 header.Authorization을 전송하는데, 코드상에서 이것을 해석하는 부분은 비어있지만, MD5알고리즘으로 정해진 임의 규칙에 따라 암호화 했다는 것을 알 수 있다.
 
-      ``Authorization: Digest username="june", realm="Secret Zone", nonce="TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd", uri="/digest", cnonce="NmIwMjc5NDc5ODkxYmI4MzNiOWVmNTEyMjdjYjgyNDI=", nc=00000001, qop=auth, response="f6159fc829fdce222d65cffb4d9423b3", algorithm=MD5
+      ``Authorization: Digest username="june", realm="Secret Zone", nonce="TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd", uri="/digest", cnonce="NmIwMjc5NDc5ODkxYmI4MzNiOWVmNTEyMjdjYjgyNDI=", nc=00000001, qop=auth, response="f6159fc829fdce222d65cffb4d9423b3", algorithm=MD5``
 
 쿠키를 통한 세션 관리
 ^^^^^^^^^^^^^^^^^^^^^

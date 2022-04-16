@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1.1. The Principal structure of a program &mdash; blogable_doc 0.1a documentation</title>
+  <title>The Principal structure of a program &mdash; blogable_doc 0.1a documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -17,9 +17,7 @@
         <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="go language" href="../../../../golang/index.html" />
-    <link rel="prev" title="1. Encouter" href="index.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,17 +36,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">C language families</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">books for c lang</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../index.html">modern c translation and source code</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="index.html">1. Encouter</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">C language families</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../golang/index.html">go language</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../python/index.html">Python things</a></li>
 </ul>
@@ -67,13 +56,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../../index.html">C language families</a> &raquo;</li>
-          <li><a href="../../index.html">books for c lang</a> &raquo;</li>
-          <li><a href="../index.html">modern c translation and source code</a> &raquo;</li>
-          <li><a href="index.html"><span class="section-number">1. </span>Encouter</a> &raquo;</li>
-      <li><span class="section-number">1.1. </span>The Principal structure of a program</li>
+      <li>The Principal structure of a program</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../../_sources/clang/books/modern_c/encounter/02.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/clang/books/modern_c/encounter/pricipal_structure_of_prog.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -82,24 +67,33 @@
            <div itemprop="articleBody">
              
   <section id="the-principal-structure-of-a-program">
-<h1><span class="section-number">1.1. </span>The Principal structure of a program<a class="headerlink" href="#the-principal-structure-of-a-program" title="Permalink to this headline"></a></h1>
-<p>이 장에서 다루는 내용은:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">C</span> <span class="n">문법</span>
-<span class="o">-</span> <span class="n">identifiers의</span> <span class="n">정의하는</span> <span class="n">법</span>
-<span class="o">-</span> <span class="n">objects의</span> <span class="n">정의하는</span> <span class="n">법</span>
-<span class="o">-</span> <span class="n">컴파일러에게</span> <span class="n">statements로</span> <span class="n">Instructing하는</span> <span class="n">법</span>
-</pre></div>
-</div>
-<p>C 프로그램에서 고려해야 할 측면:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">syntactical</span> <span class="n">aspect</span> <span class="p">(</span><span class="n">형태소의</span><span class="p">)</span>
-<span class="o">-</span> <span class="n">semantic</span> <span class="n">aspect</span> <span class="p">(</span><span class="n">의미적인</span><span class="p">)</span>
-   <span class="o">-</span> <span class="n">declarative</span>
-   <span class="o">-</span> <span class="n">definitions</span> <span class="n">of</span> <span class="n">objects</span>
-   <span class="o">-</span> <span class="n">statements</span>
-</pre></div>
-</div>
+<h1>The Principal structure of a program<a class="headerlink" href="#the-principal-structure-of-a-program" title="Permalink to this headline"></a></h1>
+<p>이 장에서 다루는 내용은</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>C 문법</p></li>
+<li><p>identifiers의 정의하는 법</p></li>
+<li><p>objects의 정의하는 법</p></li>
+<li><p>컴파일러에게 statements로 Instructing하는 법</p></li>
+</ul>
+</div></blockquote>
+<p>C 프로그램에서 고려해야 할 측면</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>syntactical aspect (형태소의)</p></li>
+<li><dl class="simple">
+<dt>semantic aspect (의미적인)</dt><dd><ul>
+<li><p>declarative</p></li>
+<li><p>definitions of objects</p></li>
+<li><p>statements</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
 <section id="id1">
-<h2><span class="section-number">1.1.1. </span>문법요소<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<h2>문법요소<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
 <dl class="field-list">
 <dt class="field-odd">Special words</dt>
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">#include,</span> <span class="pre">int,</span> <span class="pre">void,</span> <span class="pre">double,</span> <span class="pre">for,</span> <span class="pre">return</span></code></p>
@@ -136,10 +130,7 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="1. Encouter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../../../golang/index.html" class="btn btn-neutral float-right" title="go language" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
