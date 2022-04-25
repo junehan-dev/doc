@@ -77,5 +77,4 @@ JSON-RPC는 이 밖에도 많은 status code를 정했습니다.
    - 307 Temporary Redirect / 308 Permanenet Redirect: redirect(자동 재전송은 하지 않는다.)
    - 405 Method Not Allowed: GET메서드가 지원되지 않는 곳에 GET을 사용했다.
    - 415 Unsupported Media Type: Content-Type application/json이 아님
-   
 

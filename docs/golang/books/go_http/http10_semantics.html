@@ -94,10 +94,6 @@
 <li><p>Status code</p></li>
 </ul>
 </div></blockquote>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>HEADER!!!</p>
-</div>
 <section id="simple-form-transfer-x-www-form-urlencoded">
 <h2><span class="section-number">2.1. </span>Simple form transfer (x-www-form-urlencoded)<a class="headerlink" href="#simple-form-transfer-x-www-form-urlencoded" title="Permalink to this headline"></a></h2>
 <p>form encode request:</p>
@@ -725,10 +721,126 @@ curl --http1.0 -d <span class="nv">message</span><span class="o">=</span><span c
 </section>
 <section id="id4">
 <h3><span class="section-number">2.5.3. </span>쿠키를 통한 세션 관리<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
-<div class="admonition-todo admonition" id="id5">
-<p class="admonition-title">Todo</p>
-<p>쿠키를 통한 세션 관리</p>
+<p>지금은 <em>BASIC/DIGEST</em> Auth는 쓰여지지 않는 이유</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>요청할 때마다 패스워드와 유저 ID를 매회 전송해야 Session을 유지하는 것처럼 보일 수 있다.</p></li>
+<li><p>사용자 Device를 식별 불가능 하다. (OS의 기능에 대해 분류할 방법이 없다.)</p></li>
+</ul>
+</div></blockquote>
+<p>Form, cookie, session token을 활용하는 방식</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>DIGEST 인증과 달리 직접 유저정보를 전송하므로 SSL/TLS가 필수적입니다.</p></li>
+<li><p>서버는 세션토큰을 생성하고, 토큰을 클라이언트에게 전송합니다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="signed-cookie">
+<h3><span class="section-number">2.5.4. </span>Signed Cookie<a class="headerlink" href="#signed-cookie" title="Permalink to this headline"></a></h3>
+<p>DESC</p>
+<blockquote>
+<div><p>public key / private key로 데이터를 확인할 수 있는 키를 둘 다 서버만 가지고 있어서, 클라이언트의 세션토큰에 대한 정합성을 서버에서만 확인 할 수 있는 시스템입니다.</p>
+</div></blockquote>
+<p>PROS</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>서버 측에서 데이터 저장을 위해 준비할 필요 없이, 즉시 토큰 자체를 암호화된 정보로 취급하면 초기 토큰 생성과정 이후 AUTH에 관련하여 데이터베이스에 접근을 필요로 하지 않는다는 점입니다.</p></li>
+<li><p>micro service 구현시에도 암호화 방식을 공통화 하면, 서비스끼리 같은 세션으로 소통할 수 있다는 장점이 있습니다. (<em>kerberos</em>)</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="proxy">
+<h2><span class="section-number">2.6. </span>Proxy<a class="headerlink" href="#proxy" title="Permalink to this headline"></a></h2>
+<section id="wikipedia-proxy">
+<h3><span class="section-number">2.6.1. </span><cite>wikipedia.Proxy</cite><a class="headerlink" href="#wikipedia-proxy" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>Proxy 서버는 client request와 server providing resource 중간에서 전달자 역할을 합니다.
+직접 서버에 요청을 연결하는 대신에 프록시 서버에게 연결하도록 하여, request를 분석하고, 요구되는 네트워크 transaction을 수행합니다.</p>
+<p>아래와 같은 효과를 가질 수 있습니다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>request의 복잡성을 조절하는 역할</p></li>
+<li><p>로드 밸런싱, 보안 등의 이점</p></li>
+</ul>
+</div></blockquote>
+<p>Proxies는 분산 시스템에 encapsulation과 구조를 더하는 것으로 소개되었습니다.</p>
+<p>따라서 중간의 자리에서, 암시적으로 request의 원형을 <em>masking</em>하는 효과를 가집니다.</p>
+</div></blockquote>
+<p>프록시는 <em>HTTP/1.0</em> 규격에서 부터 언급되었습니다.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /helloworld
+Host: localhost:18888
+GET https://example.com/helloworld
+Host: example.com
+</pre></div>
 </div>
+</section>
+<section id="header-proxy-authenticate">
+<h3><span class="section-number">2.6.2. </span>HEADER.Proxy-Authenticate<a class="headerlink" href="#header-proxy-authenticate" title="Permalink to this headline"></a></h3>
+<p>프록시 서버가 악용되지 않도록 인증을 이용해 프록시 서버를 보호하는 경우도 있습니다.</p>
+<p>중계되는 프록시는 중간의 호스트 IP주소를 특정 Header에 기록해 갑니다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X-Forwarded-For:</span> <span class="pre">client,</span> <span class="pre">proxy1,</span> <span class="pre">proxy2</span></code> <em>(RFC 7239)</em></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">curl</span> <span class="pre">--http1.0</span> <span class="pre">--proxy</span> <span class="pre">http://proxy1.com</span> <span class="pre">-U</span> <span class="pre">user:pass</span> <span class="pre">http://server/helloworld</span></code></p>
+<p>HTTPS통신의 프록시 지원은 HTTP1.1에 추가된 <em>CONNECT</em> method를 사용합니다.</p>
+</section>
+</section>
+<section id="cache">
+<h2><span class="section-number">2.7. </span>Cache<a class="headerlink" href="#cache" title="Permalink to this headline"></a></h2>
+<div class="line-block">
+<div class="line">content의 diversity에 따른 데이터 전송량 증가에 따라, 컨텐츠가 변경되지 않았을 때,</div>
+<div class="line">로컬에 저장된 파일을 재사용함으로써 다운로드 데이터를 줄이고 성능을 높이는 cache 매커니즘이 등장했습니다.</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>GET, HEAD메서드 이외에는 ‘기본적으로’ 캐시되지 않습니다.</p>
+</div>
+<section id="id5">
+<h3><span class="section-number">2.7.1. </span>갱신 일자에 따른 캐시<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h3>
+<p>HTTP/1.0 당시에는 정적 컨텐츠 위주여서 파일의 timestamp가 변경되었는지 비교하는 것으로 데이터 전송여부를 결정할 수 있었습니다.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Response Header</dt><dd><p><code class="docutils literal notranslate"><span class="pre">Last-Modified:</span> <span class="pre">Wed,</span> <span class="pre">08</span> <span class="pre">Jun</span> <span class="pre">2016</span> <span class="pre">15:23:45</span> <span class="pre">GMT</span></code></p>
+</dd>
+</dl>
+</div></blockquote>
+<p>웹 브라우저가 캐시된 URL을 다시 읽을 때에 서버에서 반환된 일시를 그대로 넣어 요청합니다.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>REQUEST HEADER</dt><dd><p><code class="docutils literal notranslate"><span class="pre">If-Modified-Since:</span> <span class="pre">Wed,</span> <span class="pre">08</span> <span class="pre">Jun</span> <span class="pre">2016</span> <span class="pre">15:23:45</span> <span class="pre">GMT</span></code></p>
+</dd>
+</dl>
+</div></blockquote>
+<p>위 요청에 따라 데이터가 변경되었다면,</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>200 OK</em>, 데이터가 변경되어 정상적으로 응답</p></li>
+<li><p><em>304 Not Modified</em>, 데이터가 변경되지 않았으니 캐시를 사용하라는 응답</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="etag">
+<h3><span class="section-number">2.7.2. </span>ETag<a class="headerlink" href="#etag" title="Permalink to this headline"></a></h3>
+<p>날짜와 시간을 이용한 캐시 비교만으로 해결할 수 없을 때가 있습니다.</p>
+<p>사용자의 정보나 상태에 따라 부분적인 변경이 한 주소에 동적으로 일어나는 경우가 늘어나거나 하는 등의 경우에, 날짜와 시간을 근거로 캐시의 신선함을 판단하기가 어려워 집니다.</p>
+<p>이럴 때 사용할 수 있는 것이 <em>HTTP/1.1</em>에서 추가된 <em>ETag(Entity tag)</em>입니다.</p>
+<dl class="simple">
+<dt><em>Wikipedia.ETag</em></dt><dd><p>파일의 데이터로 비교하여 캐시의 유효성을 검증하는 매커니즘</p>
+<ul class="simple">
+<li><p>클라이언트가 조건적인 요청을 전달하는 것을 가능하게 합니다.</p></li>
+<li><p>대상 URL에 대한 자원이 변경되면 새로운 Etag가 생성되고 전달됩니다.</p></li>
+</ul>
+</dd>
+</dl>
+<p><em>ETag</em>는 서버가 자유롭게 결정해서 반환할 수 있습니다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>아마존 S3의 경우 컨텐츠 파일의 해시 값이 사용되는 것으로 추정됩니다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="cache-control">
+<h3><span class="section-number">2.7.3. </span>Cache-Control<a class="headerlink" href="#cache-control" title="Permalink to this headline"></a></h3>
 </section>
 </section>
 </section>

@@ -8,11 +8,6 @@ Semantics of Http/1.0
    - Body
    - Status code
 
-.. important::
-
-   HEADER!!!
-   
-
 Simple form transfer (x-www-form-urlencoded)
 --------------------------------------------
 
@@ -488,6 +483,117 @@ Digest 인증
 쿠키를 통한 세션 관리
 ^^^^^^^^^^^^^^^^^^^^^
 
-.. todo::
+지금은 *BASIC/DIGEST* Auth는 쓰여지지 않는 이유
 
-   쿠키를 통한 세션 관리
+   - 요청할 때마다 패스워드와 유저 ID를 매회 전송해야 Session을 유지하는 것처럼 보일 수 있다.
+   - 사용자 Device를 식별 불가능 하다. (OS의 기능에 대해 분류할 방법이 없다.)
+
+Form, cookie, session token을 활용하는 방식
+
+   - DIGEST 인증과 달리 직접 유저정보를 전송하므로 SSL/TLS가 필수적입니다.
+   - 서버는 세션토큰을 생성하고, 토큰을 클라이언트에게 전송합니다.
+
+Signed Cookie
+^^^^^^^^^^^^^
+
+DESC
+
+   public key / private key로 데이터를 확인할 수 있는 키를 둘 다 서버만 가지고 있어서, 클라이언트의 세션토큰에 대한 정합성을 서버에서만 확인 할 수 있는 시스템입니다.
+
+PROS
+
+   - 서버 측에서 데이터 저장을 위해 준비할 필요 없이, 즉시 토큰 자체를 암호화된 정보로 취급하면 초기 토큰 생성과정 이후 AUTH에 관련하여 데이터베이스에 접근을 필요로 하지 않는다는 점입니다.
+   - micro service 구현시에도 암호화 방식을 공통화 하면, 서비스끼리 같은 세션으로 소통할 수 있다는 장점이 있습니다. (*kerberos*\)
+
+Proxy
+-----
+
+`wikipedia.Proxy`
+^^^^^^^^^^^^^^^^^
+
+   Proxy 서버는 client request와 server providing resource 중간에서 전달자 역할을 합니다.
+   직접 서버에 요청을 연결하는 대신에 프록시 서버에게 연결하도록 하여, request를 분석하고, 요구되는 네트워크 transaction을 수행합니다.
+
+   아래와 같은 효과를 가질 수 있습니다.
+
+      - request의 복잡성을 조절하는 역할
+      - 로드 밸런싱, 보안 등의 이점
+
+   Proxies는 분산 시스템에 encapsulation과 구조를 더하는 것으로 소개되었습니다.
+
+   따라서 중간의 자리에서, 암시적으로 request의 원형을 *masking*\하는 효과를 가집니다.
+
+프록시는 *HTTP/1.0* 규격에서 부터 언급되었습니다.
+
+.. code-block:: bash
+
+   GET /helloworld
+   Host: localhost:18888
+   GET https://example.com/helloworld
+   Host: example.com
+
+HEADER.Proxy-Authenticate
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+프록시 서버가 악용되지 않도록 인증을 이용해 프록시 서버를 보호하는 경우도 있습니다.
+
+중계되는 프록시는 중간의 호스트 IP주소를 특정 Header에 기록해 갑니다.
+
+``X-Forwarded-For: client, proxy1, proxy2`` *(RFC 7239)*
+
+``$ curl --http1.0 --proxy http://proxy1.com -U user:pass http://server/helloworld``
+
+HTTPS통신의 프록시 지원은 HTTP1.1에 추가된 *CONNECT* method를 사용합니다.
+
+Cache
+-----
+
+| content의 diversity에 따른 데이터 전송량 증가에 따라, 컨텐츠가 변경되지 않았을 때,
+| 로컬에 저장된 파일을 재사용함으로써 다운로드 데이터를 줄이고 성능을 높이는 cache 매커니즘이 등장했습니다.
+
+.. note::
+
+   GET, HEAD메서드 이외에는 '기본적으로' 캐시되지 않습니다.
+
+갱신 일자에 따른 캐시
+^^^^^^^^^^^^^^^^^^^^^
+
+HTTP/1.0 당시에는 정적 컨텐츠 위주여서 파일의 timestamp가 변경되었는지 비교하는 것으로 데이터 전송여부를 결정할 수 있었습니다.
+
+   Response Header
+      ``Last-Modified: Wed, 08 Jun 2016 15:23:45 GMT``
+
+웹 브라우저가 캐시된 URL을 다시 읽을 때에 서버에서 반환된 일시를 그대로 넣어 요청합니다.
+
+   REQUEST HEADER
+      ``If-Modified-Since: Wed, 08 Jun 2016 15:23:45 GMT``
+
+위 요청에 따라 데이터가 변경되었다면, 
+
+   - *200 OK*\, 데이터가 변경되어 정상적으로 응답
+   - *304 Not Modified*\, 데이터가 변경되지 않았으니 캐시를 사용하라는 응답
+
+ETag
+^^^^
+
+날짜와 시간을 이용한 캐시 비교만으로 해결할 수 없을 때가 있습니다.
+
+사용자의 정보나 상태에 따라 부분적인 변경이 한 주소에 동적으로 일어나는 경우가 늘어나거나 하는 등의 경우에, 날짜와 시간을 근거로 캐시의 신선함을 판단하기가 어려워 집니다.
+
+이럴 때 사용할 수 있는 것이 *HTTP/1.1*\에서 추가된 *ETag(Entity tag)*\입니다.
+
+*Wikipedia.ETag*
+   파일의 데이터로 비교하여 캐시의 유효성을 검증하는 매커니즘
+
+   - 클라이언트가 조건적인 요청을 전달하는 것을 가능하게 합니다.
+   - 대상 URL에 대한 자원이 변경되면 새로운 Etag가 생성되고 전달됩니다.
+
+   
+*ETag*\는 서버가 자유롭게 결정해서 반환할 수 있습니다.
+
+   - 아마존 S3의 경우 컨텐츠 파일의 해시 값이 사용되는 것으로 추정됩니다.
+
+Cache-Control
+^^^^^^^^^^^^^
+
+
