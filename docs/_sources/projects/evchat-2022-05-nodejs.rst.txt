@@ -1,7 +1,0 @@
-Evchat
-======
-
-Preface
--------
-
-.. image:: https://lh3.googleusercontent.com/pw/AM-JKLXOkS2YrcwCNhQPv7xwm8XmBsHlIuFDSuUly4D7_yFZzGqy58U1z99IwGY4x25V4CEp9iQ1npVa_S7Bz2-FgBGdXWzyGpFkEUthf9IwYpYy2eD6_fetTa8R3W8NSo-PIIk_4R3mhOi6y2tFADm9ID1_=w731-h681-no?authuser=0
