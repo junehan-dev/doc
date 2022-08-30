@@ -13,6 +13,9 @@ Welcome to junehan's docs_sphinx documentation!
    clang/index
    golang/index
    python/index
+   gits/index
+   docker/index
+   projects/index
 
 Indices and tables
 ==================

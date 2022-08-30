@@ -6,4 +6,4 @@ Python things
    :caption: Contents:
 
    rst/index
-
+   books/index
