@@ -1,9 +1,10 @@
-Python things
+Docker things
 =============
 
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
 
-   rst/index
-   books/index
+   quickstart
+   docker_for_developer/index
+

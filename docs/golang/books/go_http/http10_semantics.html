@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2. Semantics of Http/1.0 &mdash; blogable_doc 0.1a documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="3. Semantics of Http/1.1" href="http11_semantics.html" />
+    <link rel="prev" title="1. Syntax of Http/1.0" href="http10_syntax.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> blogable_doc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../clang/index.html">C language families</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">go language</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">books for golang</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Realword http 정리</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="http10_syntax.html">1. Syntax of Http/1.0</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">2. Semantics of Http/1.0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="http11_semantics.html">3. Semantics of Http/1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="http20.html">4. HTTP/2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python/index.html">Python things</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gits/index.html">GIT things</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docker/index.html">Docker things</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../projects/index.html">Projects</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">blogable_doc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">go language</a> &raquo;</li>
+          <li><a href="../index.html">books for golang</a> &raquo;</li>
+          <li><a href="index.html">Realword http 정리</a> &raquo;</li>
+      <li><span class="section-number">2. </span>Semantics of Http/1.0</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/golang/books/go_http/http10_semantics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="semantics-of-http-1-0">
+<h1><span class="section-number">2. </span>Semantics of Http/1.0<a class="headerlink" href="#semantics-of-http-1-0" title="Permalink to this headline"></a></h1>
+<p><strong>Timeless, 4-core components of HTTP</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Method, URL(domain + path)</p></li>
+<li><p>Header</p></li>
+<li><p>Body</p></li>
+<li><p>Status code</p></li>
+</ul>
+</div></blockquote>
+<section id="simple-form-transfer-x-www-form-urlencoded">
+<h2><span class="section-number">2.1. </span>Simple form transfer (x-www-form-urlencoded)<a class="headerlink" href="#simple-form-transfer-x-www-form-urlencoded" title="Permalink to this headline"></a></h2>
+<p>form encode request:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+curl --http1.0 --data-urlencode <span class="nv">title</span><span class="o">=</span><span class="s2">&quot;Head First PHP &amp; MySQL&quot;</span> <span class="se">\</span>
+--data-urlencode <span class="nv">author</span><span class="o">=</span><span class="s2">&quot;Lynn Beighley, Michael Morrison&quot;</span> <span class="se">\</span>
+http://<span class="nv">$1</span> --verbose
+</pre></div>
+</div>
+<p>output:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Content-Length: <span class="m">71</span>
+Content-Type: application/x-www-form-urlencoded
+User-Agent: curl/7.82.0
+
+<span class="nv">title</span><span class="o">=</span>Head+First+PHP+%26+MySQL<span class="p">&amp;</span><span class="nv">author</span><span class="o">=</span>Lynn+Beighley%2C+Michael+Morrison
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+<dl>
+<dt>URL encoding (wikipedia)</dt><dd><div class="line-block">
+<div class="line"><strong>Percent-encoding</strong>은 <strong>URL encoding</strong>이라고도 알려져 있으며,</div>
+<div class="line">형식적인 데이터를 <em>US-ASCII</em>만을 허용하는 URI로 encode하는 방법이다.</div>
+<div class="line">일반적으로 주류 URI셋에서 사용되는데, <code class="docutils literal notranslate"><span class="pre">application/x-www-form-urlencoded</span></code>의 Media type 데이터의 준비작업에 사용되며 HTML form에 사용된다.</div>
+</div>
+</dd>
+</dl>
+</section>
+<section id="file-transfer-using-form-multipart-form-data">
+<h2><span class="section-number">2.2. </span>File transfer using form (multipart/form-data)<a class="headerlink" href="#file-transfer-using-form-multipart-form-data" title="Permalink to this headline"></a></h2>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;POST&quot;</span> <span class="na">enctype</span><span class="o">=</span><span class="s">&quot;multipart/form-data</span><span class="p">&gt;&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">멀티파트를 이용하는 경우는 한번의 요청으로 복수의 파일을 받는 쪽에서 구분할 수 있어야합니다.</div>
+<div class="line">경계문자열(boundary)가 포함되어 브라우저가 독자적인 포멧을 랜덤하게 만들어냅니다.</div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Content-Type: multipart/form-data; boundary=-----WebkitFromBoundaryy0YfbccgoID172j7
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>헤더에 <em>Content-Disposition</em> 항목이 포함됩니다.</p>
+</div>
+<section id="multipart-form-test">
+<h3><span class="section-number">2.2.1. </span>Multipart form test<a class="headerlink" href="#multipart-form-test" title="Permalink to this headline"></a></h3>
+<ul>
+<li><p>Request</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+curl --http1.0 -F <span class="s2">&quot;file2&lt;test.txt;type=text/html&quot;</span> -F <span class="s2">&quot;file1@test.txt;type=text/html&quot;</span> http://<span class="nv">$1</span> --verbose
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Client</p>
+<blockquote>
+<div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>POST / HTTP/1.0
+&gt; Host: 127.0.0.1:18888
+&gt; User-Agent: curl/7.82.0
+&gt; Accept: */*
+&gt; Content-Length: 354
+&gt; Content-Type: multipart/form-data; boundary=------------------------8eef5e797ff1fda2
+&gt;
+* We are completely uploaded and fine
+* Mark bundle as not supporting multiuse
+* HTTP 1.0, assume close after body
+&lt; HTTP/1.0 200 OK
+&lt; Date: Wed, 13 Apr 2022 12:27:39 GMT
+&lt; Content-Length: 32
+&lt; Content-Type: text/html; charset=utf-8
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Server</p>
+<blockquote>
+<div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>POST / HTTP/1.0
+Host: 127.0.0.1:18888
+Connection: close
+Accept: */*
+Content-Length: 333
+Content-Type: multipart/form-data; boundary=------------------------8eef5e797ff1fda2
+User-Agent: curl/7.82.0
+
+--------------------------8eef5e797ff1fda2
+Content-Disposition: form-data; name=&quot;file2&quot;
+Content-Type: text/html
+
+simple string
+
+--------------------------8eef5e797ff1fda2
+Content-Disposition: form-data; name=&quot;file1&quot;; filename=&quot;test.txt&quot;
+Content-Type: text/html
+
+simple string
+
+--------------------------8eef5e797ff1fda2--
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>text/plain</p>
+<p>form의 encoding type은 기본적으로 www-form-urlencoded,
+파일을 전송하고 싶을 때: multipart/form-data.</p>
+<p>text/plain은 개행을 통해 각 값을 구분해 전송합니다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">title=The</span> <span class="pre">Art</span> <span class="pre">of</span> <span class="pre">community</span>
+<span class="pre">author=john</span> <span class="pre">bacon</span>
+<span class="pre">`</span></code></p>
+<p>서비스쪽이 보안이 약할 때 문제를 일으키는 경우가 있다고 합니다.</p>
+</div>
+</section>
+</section>
+<section id="content-negotiation">
+<h2><span class="section-number">2.3. </span>Content negotiation<a class="headerlink" href="#content-negotiation" title="Permalink to this headline"></a></h2>
+<blockquote>
+<div><p>서버와 클라이언트간 통신을 최적화 하고자 하나의 요청에서 최고의 설정을 공유하는 시스템</p>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Request Header</p></th>
+<th class="head"><p>Response Header</p></th>
+<th class="head"><p>negotiation target</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Accept</p></td>
+<td><p>Content-Type</p></td>
+<td><p>MIME Type</p></td>
+</tr>
+<tr class="row-odd"><td><p>Accept-Language</p></td>
+<td><p>Content-Type / html tag</p></td>
+<td><p>language</p></td>
+</tr>
+<tr class="row-even"><td><p>Accept-Charset</p></td>
+<td><p>Content-Type</p></td>
+<td><p>character set</p></td>
+</tr>
+<tr class="row-odd"><td><p>Accept-Encoding</p></td>
+<td><p>Content-Encoding</p></td>
+<td><p>compression type</p></td>
+</tr>
+</tbody>
+</table>
+<section id="file-type">
+<h3><span class="section-number">2.3.1. </span>File type 결정<a class="headerlink" href="#file-type" title="Permalink to this headline"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Accept:</span> <span class="pre">text/html,application/xml;q=0.9,image/webp,*/*;p=0.8</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>image/webp</p></li>
+<li><p>*/*;q=0.8</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">quality</span> <span class="n">value는</span> <span class="mi">0</span><span class="o">~</span><span class="mi">1</span> <span class="n">사이의</span> <span class="n">수치로</span><span class="p">,</span> <span class="n">기본</span> <span class="mf">1.0</span><span class="n">일</span> <span class="n">경우에는</span> <span class="n">명시하지</span> <span class="n">않습니다</span><span class="o">.</span>
+<span class="mf">0.9</span><span class="n">의</span> <span class="n">우선순위로</span> <span class="n">webp를</span> <span class="n">요청하고</span><span class="p">,</span> <span class="n">그렇지</span> <span class="n">않으면</span> <span class="n">다른</span> <span class="n">포맷</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span><span class="n">을</span> <span class="n">다음으로</span> <span class="n">두고</span> <span class="n">있는</span> <span class="n">표현입니다</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="charset">
+<h3><span class="section-number">2.3.2. </span>Charset 결정<a class="headerlink" href="#charset" title="Permalink to this headline"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Accept-Charset:</span> <span class="pre">window-949,utf-8;q=0.7,*;q=0.3</span></code></p>
+<blockquote>
+<div><p>브라우저가 모든 charest-encoder를 내장하고 있기 때문에, 협상이 필요없어 졌습니다.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">Content-Type:</span> <span class="pre">text/html;</span> <span class="pre">charset=UTF-8</span></code></p>
+<blockquote>
+<div><p>HTML의 경우 문서 안에 쓸 수도 있습니다.</p>
+</div></blockquote>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;meta</span> <span class="pre">http-equiv=&quot;Content-Type&quot;</span> <span class="pre">content=&quot;text/html;</span> <span class="pre">charset=UTF-8&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;meta</span> <span class="pre">charset=&quot;UTF-8&quot;&gt;</span></code></p></li>
+</ol>
+</section>
+<section id="id1">
+<h3><span class="section-number">2.3.3. </span>압축을 이용한 통신속도 향상<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
+<p>통신에 걸리는 시간보다 압축과 해체가 짧은 시간에 이루어지므로, 압축을 함으로써 웹페이지를 표시할 때 걸리는 전체적인 처리시간을 줄일 수 있습니다.</p>
+<p>PROS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">전력소비</span> <span class="n">감소</span>
+<span class="o">-</span> <span class="n">데이터</span> <span class="n">사용</span> <span class="n">비용</span> <span class="n">절감</span>
+</pre></div>
+</div>
+<p>압축에 대한 negotiation은 header안에서 명시합니다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Accept-Encoding:</span> <span class="pre">deflate,</span> <span class="pre">gzip</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+curl --http1.0 --compressed -H <span class="s2">&quot;Accept-Encoding: gzip, br&quot;</span> http://<span class="nv">$1</span> --verbose
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; GET / HTTP/1.0
+&gt; Host: <span class="m">127</span>.0.0.1:18888
+&gt; User-Agent: curl/7.82.0
+&gt; Accept: */*
+&gt; Accept-Encoding: gzip, br
+&gt;
+* Mark bundle as not supporting multiuse
+* HTTP <span class="m">1</span>.0, assume close after body
+&lt; HTTP/1.0 <span class="m">200</span> OK
+&lt; Date: Fri, <span class="m">15</span> Apr <span class="m">2022</span> <span class="m">11</span>:34:53 GMT
+&lt; Content-Length: <span class="m">32</span>
+&lt; Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</pre></div>
+</div>
+<ul>
+<li><p>서버가 압축 content를 지원하지 않기 떄문에 차이가 발생하지 않았을 뿐 요청을 정상적으로 처리되었습니다.</p></li>
+<li><p>서버가 gzip을 지원했을 경우, 아래와 같은 응답을 반환합니다.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&lt; Content-Encoding: gzip
+&lt; Content-Length: <span class="o">(</span>zipped size of bytes<span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>gzip보다 효율이 좋은 <em>Brotil</em>는 구글의 proposal로 등장하였습니다</p>
+<blockquote>
+<div><p><em>HTTP헤더를 사용해 1왕복을 데이터 교환 단계에서 하위 호환성을 유지하면서도, 서로 최적의 통신을 할 수 있게 시스템이 정비되었습니다.</em></p>
+</div></blockquote>
+</li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>sdch(Shared Dictionary Compressing for HTTP), 는 IANA비등록 압축알고리즘이며, 중복되는 문구를 공유 사전으로 사용하여 통신량을 대폭 줄일 수 있는 알고리즘입니다.
+이런 공유 방식은 HTTP/2의 헤더부분 압축에도 사용됩니다.</p>
+</div>
+</section>
+</section>
+<section id="cookie">
+<h2><span class="section-number">2.4. </span>Cookie<a class="headerlink" href="#cookie" title="Permalink to this headline"></a></h2>
+<p>쿠키란 웹사이트의 정보를 브라우저에 개별 domain에 대해서 저장하는 작은 파일입니다.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>response:
+
+Set-Cookie: <span class="nv">LAST_ACCESS_DATE</span><span class="o">=</span>Jul/31/2016
+Set-Cookie: <span class="nv">LAST_ACCESS_TIME</span><span class="o">=</span><span class="m">12</span>:04
+----------------------------
+client:
+
+Cookie: <span class="nv">LAST_ACCESS_DATE</span><span class="o">=</span>Jul/31/2016
+Cookie: <span class="nv">LAST_ACCESS_TIME</span><span class="o">=</span><span class="m">12</span>:04
+</pre></div>
+</div>
+<p>set-cookie라는 약속된 헤더를 통해서 key-value pair를 저장하고,</p>
+<p>다음 요청시에 쿠키정보를 포함한 request를 전송하는 것으로 상태를 이어갈 수 있습니다.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span><span class="w"></span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;fmt&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;log&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;net/http&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;net/http/httputil&quot;</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">handler</span><span class="p">(</span><span class="nx">writer</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="nx">dump</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">httputil</span><span class="p">.</span><span class="nx">DumpRequest</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprint</span><span class="p">(</span><span class="nx">err</span><span class="p">),</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusInternalServerError</span><span class="p">)</span><span class="w"></span>
+<span class="w">		</span><span class="k">return</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">dump</span><span class="p">))</span><span class="w"></span>
+<span class="w">	</span><span class="nx">cookie_response</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">cookie_response</span><span class="p">(</span><span class="nx">writer</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="nx">writer</span><span class="p">.</span><span class="nx">Header</span><span class="p">().</span><span class="nx">Add</span><span class="p">(</span><span class="s">&quot;Set-Cookie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;VISIT=TRUE&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">Header</span><span class="p">[</span><span class="s">&quot;Cookie&quot;</span><span class="p">];</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&lt;html&gt;&lt;body&gt;VISITED~&lt;/body&gt;&lt;/html&gt;\n&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&lt;html&gt;&lt;body&gt;FIRST VISIT!!&lt;/body&gt;&lt;/html&gt;\n&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="kd">var</span><span class="w"> </span><span class="nx">httpServer</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="w"></span>
+<span class="w">	</span><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;start http listening :18888&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">httpServer</span><span class="p">.</span><span class="nx">Addr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;:18888&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">httpServer</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">())</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;-----------------FIRST: NO COOKIE&quot;</span>
+curl --http1.0 --cookie-jar cookie.txt http://<span class="nv">$1</span> --verbose
+<span class="nb">echo</span> <span class="s2">&quot;\n---------------SECOND: YEP COOKIE&quot;</span>
+curl --http1.0 --cookie cookie.txt http://<span class="nv">$1</span> --verbose
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-----------------FIRST: NO COOKIE
+&gt; GET / HTTP/1.0
+&gt; Host: <span class="m">127</span>.0.0.1:18888
+&gt; User-Agent: curl/7.82.0
+* HTTP <span class="m">1</span>.0, assume close after body
+
+&lt; HTTP/1.0 <span class="m">200</span> OK
+* Added cookie <span class="nv">VISIT</span><span class="o">=</span><span class="s2">&quot;TRUE&quot;</span> <span class="k">for</span> domain <span class="m">127</span>.0.0.1, path /, expire <span class="m">0</span>
+&lt; Set-Cookie: <span class="nv">VISIT</span><span class="o">=</span>TRUE
+&lt;
+&lt;html&gt;&lt;body&gt;FIRST VISIT!!&lt;/body&gt;&lt;/html&gt;
+* Closing connection <span class="m">0</span>
+
+---------------SECOND: YEP COOKIE
+&gt; GET / HTTP/1.0
+&gt; Host: <span class="m">127</span>.0.0.1:18888
+&gt; User-Agent: curl/7.82.0
+&gt; Cookie: <span class="nv">VISIT</span><span class="o">=</span>TRUE
+* HTTP <span class="m">1</span>.0, assume close after body
+
+&lt; HTTP/1.0 <span class="m">200</span> OK
+* Replaced cookie <span class="nv">VISIT</span><span class="o">=</span><span class="s2">&quot;TRUE&quot;</span> <span class="k">for</span> domain <span class="m">127</span>.0.0.1, path /, expire <span class="m">0</span>
+&lt; Set-Cookie: <span class="nv">VISIT</span><span class="o">=</span>TRUE
+&lt; Date: Fri, <span class="m">15</span> Apr <span class="m">2022</span> <span class="m">12</span>:35:19 GMT
+&lt; Content-Length: <span class="m">35</span>
+&lt; Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+&lt;
+&lt;html&gt;&lt;body&gt;VISITED~&lt;/body&gt;&lt;/html&gt;
+* Closing connection <span class="m">0</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><em>HTTP*는 *statless*를 기반으로 개발되었지만, *cookie*를 이용하면 서버가 상태를 유지하는 *Stateful</em>처럼 보이게 서비스를 제공할 수 있습니다.</p>
+</div>
+<section id="id2">
+<h3><span class="section-number">2.4.1. </span>쿠키의 잘못된 사용법<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h3>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<ul class="simple">
+<li><p>쿠키 보관이 클라이언트에서 임의적으로 이루어지고 접근이 쉽기 떄문에 조작의 가능성이 매우 높다.</p></li>
+<li><p>서버의 지시대로 보관기간을 꼭 지키지는 않는다.</p></li>
+<li><p>암호화 되어도 일단 획득이 너무 쉽다는 것 자체가 문제입니다.</p></li>
+</ul>
+</div>
+<p>따라서 사라져도 문제가 없는 정보나, 언제든 복원할 수 있는 정보를 저장하는 용도로 적합합니다.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<ul class="simple">
+<li><p>쿠키의 최대 크기는 4KB사양으로 정해져 있어, 더 보낼 수는 없습니다.</p></li>
+<li><p>통신량의 증가는 요청과 응답속도 모두에 영향이 있습니다.</p></li>
+</ul>
+</div>
+<p>secure속성을 부여하면, HTTPS의 암호화된 데이터로 쿠키를 전송하지만, HTTP에서는 평문으로 전송됩니다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>정보를 넣을 때는 서명이나 암호화처리가 불가피합니다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id3">
+<h3><span class="section-number">2.4.2. </span>쿠키에 추가 제약속성<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<p>쿠키를 보낼 곳을 제어하거나, 쿠키의 수명을 설정하는 등의 기술이 정의되어 있습니다.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>HTTP클라이언트는 이 속성을 해석해 쿠키 전송을 제어할 책임이 있습니다.</p>
+</div>
+<ul class="simple">
+<li><p><em>속성</em>은 대소문자를 구분하지 않습니다.</p></li>
+<li><p><em>속성</em>은 <em>‘;’</em>기호를 사용해 얼마든지 나열 가능합니다.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Expires, Max-Age</dt>
+<dd class="field-odd"><p>쿠키의 수명을 설정</p>
+<ul class="simple">
+<li><p>Max-Age는 초단위 지정</p></li>
+<li><p>Expires는 <em>Wed, 09 Jun, 2021 10:18:14GMT</em> 같은 형식의 문자열을 해석합니다.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Domain</dt>
+<dd class="field-even"><p>클라이언트에서 쿠키를 전송할 대상 서버 domain</p>
+<ul class="simple">
+<li><p>생략시, 발행한 서버에 대해서 적용이 됩니다.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Path</dt>
+<dd class="field-odd"><p>클라이언트에서 쿠키를 전송할 대상 서버 path</p>
+<ul class="simple">
+<li><p>생략시, 쿠키를 발행한 서버 Path</p></li>
+</ul>
+</dd>
+<dt class="field-even">Secure</dt>
+<dd class="field-even"><p>https프로토콜을 사용할 때만 클라이언트는 서버로 쿠키를 전송한다.</p>
+<ul class="simple">
+<li><p>쿠키는 매핑된 URL을 대상으로 전송처를 정하기 때문에,
+DNS해킹으로 URL을 사칭하면 의도치 않은 서버에 쿠키를 전송할 위험이 있습니다.</p></li>
+<li><p>DNS해킹은 무료 와이파이 서비스등으로 간단히 가능합니다.</p></li>
+<li><p>Secure속성을 추가하면 http접속일때는 브라우저가 경고를 하고 접속하지 않아 정보 유출을 막게됩니다.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">HttpOnly</dt>
+<dd class="field-odd"><p>쿠키를 자바스크립트로 다룰 수 없도록 한다.</p>
+<ul class="simple">
+<li><p>이 속성을 붙이면 자바스크립트 엔진으로부터 쿠키를 감출 수 있습니다.</p></li>
+<li><p><em>Cross-site-scripting</em>등 자바스크립트가 실행하는 보안위험에 대한 방어가 가능합니다.</p></li>
+</ul>
+</dd>
+<dt class="field-even">SameSite</dt>
+<dd class="field-even"><p>RFC의 규약에 존재하지 않으며 크롬브라우저에서 도입한 속성으로 출처의 도메인으로 전송하도록 브라우저가 강제합니다.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="authorization-and-session">
+<h2><span class="section-number">2.5. </span>authorization and session<a class="headerlink" href="#authorization-and-session" title="Permalink to this headline"></a></h2>
+<section id="basic-auth">
+<h3><span class="section-number">2.5.1. </span>Basic Auth<a class="headerlink" href="#basic-auth" title="Permalink to this headline"></a></h3>
+<dl>
+<dt>Basic 인증</dt><dd><p>유저명과 password를 BASE64인코딩 처리합니다.
+변환가능하므로, 그대로 원본을 추출할 수 있습니다.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>SSL/TLS 통신을 사용하지 않은 채로 감청시에 손쉽게 유출됩니다.</p>
+</div>
+</dd>
+</dl>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+curl --http1.0 --basic --user june:pwd1234 http://<span class="nv">$1</span> --verbose
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>* Connected to <span class="m">127</span>.0.0.1 <span class="o">(</span><span class="m">127</span>.0.0.1<span class="o">)</span> port <span class="m">18888</span> <span class="o">(</span><span class="c1">#0)</span>
+* Server auth using Basic with user <span class="s1">&#39;june&#39;</span>
+&gt; GET / HTTP/1.0
+&gt; Host: <span class="m">127</span>.0.0.1:18888
+&gt; Authorization: Basic anVuZTpwd2QxMjM0
+&gt; User-Agent: curl/7.82.0
+&gt; Accept: */*
+</pre></div>
+</div>
+</section>
+<section id="digest-auth">
+<h3><span class="section-number">2.5.2. </span>Digest Auth<a class="headerlink" href="#digest-auth" title="Permalink to this headline"></a></h3>
+<dl class="simple">
+<dt>Digest 인증</dt><dd><p>hash function(암호화는 쉽지만 복호화는 어렵게)을 이용합니다.
+보호된 영역에 접속을 시도할 시에, 복호화에 실패하면 <em>401  Unauthorized</em>의 응답을 반환합니다.</p>
+</dd>
+</dl>
+<ul>
+<li><p><em>RESPONSE HEADER</em></p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">WWW-authenticated:</span> <span class="pre">Digest</span> <span class="pre">realm=&quot;영역명&quot;,</span> <span class="pre">nonce=&quot;1234567890&quot;,</span> <span class="pre">algorithm=MDS,</span> <span class="pre">qop=&quot;auth&quot;</span></code></p>
+<p>DESC</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>realm: 보호 영역 명칭</p></li>
+<li><p>nonce: 서버가 매번 생성하는 random data</p></li>
+<li><p>qop: 보호수준</p></li>
+</ul>
+<p>클라이언트에서는 <em>nonce</em>와 주어진 값을 통해 생성한 <strong>cnonce</strong>로 다음과 같은 BODY를 구합니다.</p>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p><em>RESPONSE BODY</em></p>
+<blockquote>
+<div><div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">A1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">USERNAME</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="nx">realm</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="s">&quot;PASSWORD&quot;</span><span class="w"></span>
+<span class="nx">A2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">HTTP</span><span class="w"> </span><span class="nx">METHOD</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="nx">Content</span><span class="w"> </span><span class="nx">URI</span><span class="w"></span>
+<span class="nx">response</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">MD5</span><span class="p">(</span><span class="w"> </span><span class="nx">MD5</span><span class="p">(</span><span class="nx">A1</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="nx">nonce</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="nx">nc</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="nx">cnonce</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="nx">qop</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="w"> </span><span class="nx">MD5</span><span class="p">(</span><span class="nx">A2</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>DESC</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>nc: 전송횟수로 16진수 8자리(4byte)로 표현됩니다.</p></li>
+</ul>
+<p>클라이언트에서는 생성한 <strong>cnonce</strong>와 계산으로 구한 response를 모아 다음과 같은 header를 포함하는 request를 구성합니다.</p>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p><em>REQUEST HEADER</em></p>
+<blockquote>
+<div><div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">Authorization</span><span class="p">:</span><span class="w"> </span><span class="nx">Digest</span><span class="w"> </span><span class="nx">username</span><span class="p">=</span><span class="s">&quot;username&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">realm</span><span class="p">=</span><span class="s">&quot;area name&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nx">nouce</span><span class="p">=</span><span class="s">&quot;1234567890&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="s">&quot;/scret.html&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">algorithm</span><span class="p">=</span><span class="nx">MD5</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">qop</span><span class="p">=</span><span class="nx">auth</span><span class="p">,</span><span class="w"> </span><span class="nx">nc</span><span class="p">=</span><span class="mo">00000001</span><span class="p">,</span><span class="w"> </span><span class="nx">cnounce</span><span class="p">=</span><span class="s">&quot;0987654321&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">response</span><span class="p">=</span><span class="s">&quot;9d47a3f8b2d5c&quot;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>DESC</p>
+<blockquote>
+<div><ul>
+<li><p>서버측에서도 이 헤더의 정보와 서버에 저장된 유저명 패스워드로 같은 계산을 실시하여 비교합니다.</p>
+<blockquote>
+<div><p>클라이언트가 재발송한 요청과 동일한 response body가 계산되면, 사용자가 정확하게 유저명과 패스워드릴 입력했음을 의미합니다.</p>
+</div></blockquote>
+</li>
+<li><p><strong>이 과정으로 유저명과 패스워드 자체를 요청에 포함하지 않고 사용자를 올바르게 인증하였습니다.</strong></p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p>digest server and client</p>
+<blockquote>
+<div><div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nx">main</span><span class="w"></span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;fmt&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;io/ioutil&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;log&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;net/http&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="s">&quot;net/http/httputil&quot;</span><span class="w"></span>
+
+<span class="w">	</span><span class="s">&quot;github.com/k0kubun/pp&quot;</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">digest_handler</span><span class="p">(</span><span class="nx">writer</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="nx">pp</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;URL: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">String</span><span class="p">())</span><span class="w"></span>
+<span class="w">	</span><span class="nx">pp</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Query: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">Query</span><span class="p">())</span><span class="w"></span>
+<span class="w">	</span><span class="nx">pp</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Proto: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">Proto</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">pp</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Method: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">Method</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">pp</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Header: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">Header</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">	</span><span class="k">defer</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span><span class="w"></span>
+<span class="w">	</span><span class="nx">body</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ioutil</span><span class="p">.</span><span class="nx">ReadAll</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;--body--\n%s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">body</span><span class="p">))</span><span class="w"></span>
+
+<span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">Header</span><span class="p">[</span><span class="s">&quot;Authorization&quot;</span><span class="p">];</span><span class="w"> </span><span class="p">!</span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">writer</span><span class="p">.</span><span class="nx">Header</span><span class="p">().</span><span class="nx">Add</span><span class="p">(</span><span class="s">&quot;WWW-Authenticate&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="s">`Digest</span>
+<span class="s">				realm=&quot;Secret Zone&quot;,</span>
+<span class="s">				nonce=&quot;TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd&quot;,</span>
+<span class="s">				algorithm=MD5,</span>
+<span class="s">				qop=&quot;auth&quot;`</span><span class="p">)</span><span class="w"></span>
+<span class="w">		</span><span class="nx">writer</span><span class="p">.</span><span class="nx">WriteHeader</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&lt;html&gt;&lt;body&gt;secret page&lt;/body&gt;&lt;/html&gt;\n&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">handler</span><span class="p">(</span><span class="nx">writer</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="nx">dump</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">httputil</span><span class="p">.</span><span class="nx">DumpRequest</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprint</span><span class="p">(</span><span class="nx">err</span><span class="p">),</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusInternalServerError</span><span class="p">)</span><span class="w"></span>
+<span class="w">		</span><span class="k">return</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">dump</span><span class="p">))</span><span class="w"></span>
+<span class="w">	</span><span class="nx">cookie_response</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">cookie_response</span><span class="p">(</span><span class="nx">writer</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="nx">writer</span><span class="p">.</span><span class="nx">Header</span><span class="p">().</span><span class="nx">Add</span><span class="p">(</span><span class="s">&quot;Set-Cookie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;VISIT=TRUE&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">Header</span><span class="p">[</span><span class="s">&quot;Cookie&quot;</span><span class="p">];</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&lt;html&gt;&lt;body&gt;VISITED~&lt;/body&gt;&lt;/html&gt;\n&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&lt;html&gt;&lt;body&gt;FIRST VISIT!!&lt;/body&gt;&lt;/html&gt;\n&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="kd">var</span><span class="w"> </span><span class="nx">httpServer</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="w"></span>
+<span class="w">	</span><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">handler</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/digest&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">digest_handler</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;start http listening :18888&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">httpServer</span><span class="p">.</span><span class="nx">Addr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;:18888&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">httpServer</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">())</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+
+curl --http1.0 -d <span class="nv">message</span><span class="o">=</span><span class="s2">&quot;hi&quot;</span> -d <span class="nv">to</span><span class="o">=</span><span class="s2">&quot;june&quot;</span> --digest -u june:pwd1234 http://127.0.0.1:<span class="nv">$1</span>/digest --verbose
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>*   Trying <span class="m">127</span>.0.0.1:18888...
+* Connected to <span class="m">127</span>.0.0.1 <span class="o">(</span><span class="m">127</span>.0.0.1<span class="o">)</span> port <span class="m">18888</span> <span class="o">(</span><span class="c1">#0)</span>
+* Server auth using Digest with user <span class="s1">&#39;june&#39;</span>
+&gt; POST /digest HTTP/1.0
+&gt; Host: <span class="m">127</span>.0.0.1:18888
+&gt; User-Agent: curl/7.82.0
+&gt; Accept: */*
+&gt; Content-Length: <span class="m">0</span>
+&gt; Content-Type: application/x-www-form-urlencoded
+&gt;
+* Mark bundle as not supporting multiuse
+* HTTP <span class="m">1</span>.0, assume close after body
+&lt; HTTP/1.0 <span class="m">401</span> Unauthorized
+&lt; Www-Authenticate: Digest                              <span class="nv">realm</span><span class="o">=</span><span class="s2">&quot;Secret Zone&quot;</span>,                            <span class="nv">nonce</span><span class="o">=</span><span class="s2">&quot;TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd&quot;</span>,                          <span class="nv">algorithm</span><span class="o">=</span>MD5,                          <span class="nv">qop</span><span class="o">=</span><span class="s2">&quot;auth&quot;</span>
+&lt; Date: Sat, <span class="m">16</span> Apr <span class="m">2022</span> <span class="m">05</span>:52:42 GMT
+&lt; Content-Length: <span class="m">0</span>
+&lt;
+* Closing connection <span class="m">0</span>
+* Issue another request to this URL: <span class="s1">&#39;http://127.0.0.1:18888/digest&#39;</span>
+* Hostname <span class="m">127</span>.0.0.1 was found <span class="k">in</span> DNS cache
+*   Trying <span class="m">127</span>.0.0.1:18888...
+* Connected to <span class="m">127</span>.0.0.1 <span class="o">(</span><span class="m">127</span>.0.0.1<span class="o">)</span> port <span class="m">18888</span> <span class="o">(</span><span class="c1">#1)</span>
+* Server auth using Digest with user <span class="s1">&#39;june&#39;</span>
+&gt; POST /digest HTTP/1.0
+&gt; Host: <span class="m">127</span>.0.0.1:18888
+&gt; Authorization: Digest <span class="nv">username</span><span class="o">=</span><span class="s2">&quot;june&quot;</span>, <span class="nv">realm</span><span class="o">=</span><span class="s2">&quot;Secret Zone&quot;</span>, <span class="nv">nonce</span><span class="o">=</span><span class="s2">&quot;TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd&quot;</span>, <span class="nv">uri</span><span class="o">=</span><span class="s2">&quot;/digest&quot;</span>, <span class="nv">cnonce</span><span class="o">=</span><span class="s2">&quot;NmIwMjc5NDc5ODkxYmI4MzNiOWVmNTEyMjdjYjgyNDI=&quot;</span>, <span class="nv">nc</span><span class="o">=</span><span class="m">00000001</span>, <span class="nv">qop</span><span class="o">=</span>auth, <span class="nv">response</span><span class="o">=</span><span class="s2">&quot;f6159fc829fdce222d65cffb4d9423b3&quot;</span>, <span class="nv">algorithm</span><span class="o">=</span>MD5
+&gt; User-Agent: curl/7.82.0
+&gt; Accept: */*
+&gt; Content-Length: <span class="m">18</span>
+&gt; Content-Type: application/x-www-form-urlencoded
+&gt;
+* Mark bundle as not supporting multiuse
+* HTTP <span class="m">1</span>.0, assume close after body
+&lt; HTTP/1.0 <span class="m">200</span> OK
+&lt; Date: Sat, <span class="m">16</span> Apr <span class="m">2022</span> <span class="m">05</span>:52:42 GMT
+&lt; Content-Length: <span class="m">38</span>
+&lt; Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+&lt;
+&lt;html&gt;&lt;body&gt;secret page&lt;/body&gt;&lt;/html&gt;
+* Closing connection <span class="m">1</span>
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p>요청이 auth digest의 경우 아래와 같은 헤더를 부여받아 response를 받는다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Www-Authenticate:</span> <span class="pre">Digest</span> <span class="pre">realm=&quot;Secret</span> <span class="pre">Zone&quot;,</span> <span class="pre">nonce=&quot;TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd&quot;,</span> <span class="pre">algorithm=MD5,</span> <span class="pre">qop=&quot;auth&quot;</span></code></p>
+</li>
+<li><p>다시 요청을 보낼때 아래와 같이 <code class="docutils literal notranslate"><span class="pre">cnonce</span></code> , <code class="docutils literal notranslate"><span class="pre">reponse</span></code> 를 추가하여 header.Authorization을 전송하는데, 코드상에서 이것을 해석하는 부분은 비어있지만, MD5알고리즘으로 정해진 임의 규칙에 따라 암호화 했다는 것을 알 수 있다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Digest</span> <span class="pre">username=&quot;june&quot;,</span> <span class="pre">realm=&quot;Secret</span> <span class="pre">Zone&quot;,</span> <span class="pre">nonce=&quot;TgLc25U2BQA=f410a2789473e18e6587be703c2e67fe2b04afd&quot;,</span> <span class="pre">uri=&quot;/digest&quot;,</span> <span class="pre">cnonce=&quot;NmIwMjc5NDc5ODkxYmI4MzNiOWVmNTEyMjdjYjgyNDI=&quot;,</span> <span class="pre">nc=00000001,</span> <span class="pre">qop=auth,</span> <span class="pre">response=&quot;f6159fc829fdce222d65cffb4d9423b3&quot;,</span> <span class="pre">algorithm=MD5</span></code></p>
+</li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="id4">
+<h3><span class="section-number">2.5.3. </span>쿠키를 통한 세션 관리<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
+<p>지금은 <em>BASIC/DIGEST</em> Auth는 쓰여지지 않는 이유</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>요청할 때마다 패스워드와 유저 ID를 매회 전송해야 Session을 유지하는 것처럼 보일 수 있다.</p></li>
+<li><p>사용자 Device를 식별 불가능 하다. (OS의 기능에 대해 분류할 방법이 없다.)</p></li>
+</ul>
+</div></blockquote>
+<p>Form, cookie, session token을 활용하는 방식</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>DIGEST 인증과 달리 직접 유저정보를 전송하므로 SSL/TLS가 필수적입니다.</p></li>
+<li><p>서버는 세션토큰을 생성하고, 토큰을 클라이언트에게 전송합니다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="signed-cookie">
+<h3><span class="section-number">2.5.4. </span>Signed Cookie<a class="headerlink" href="#signed-cookie" title="Permalink to this headline"></a></h3>
+<p>DESC</p>
+<blockquote>
+<div><p>public key / private key로 데이터를 확인할 수 있는 키를 둘 다 서버만 가지고 있어서, 클라이언트의 세션토큰에 대한 정합성을 서버에서만 확인 할 수 있는 시스템입니다.</p>
+</div></blockquote>
+<p>PROS</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>서버 측에서 데이터 저장을 위해 준비할 필요 없이, 즉시 토큰 자체를 암호화된 정보로 취급하면 초기 토큰 생성과정 이후 AUTH에 관련하여 데이터베이스에 접근을 필요로 하지 않는다는 점입니다.</p></li>
+<li><p>micro service 구현시에도 암호화 방식을 공통화 하면, 서비스끼리 같은 세션으로 소통할 수 있다는 장점이 있습니다. (<em>kerberos</em>)</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="proxy">
+<h2><span class="section-number">2.6. </span>Proxy<a class="headerlink" href="#proxy" title="Permalink to this headline"></a></h2>
+<section id="wikipedia-proxy">
+<h3><span class="section-number">2.6.1. </span><cite>wikipedia.Proxy</cite><a class="headerlink" href="#wikipedia-proxy" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>Proxy 서버는 client request와 server providing resource 중간에서 전달자 역할을 합니다.
+직접 서버에 요청을 연결하는 대신에 프록시 서버에게 연결하도록 하여, request를 분석하고, 요구되는 네트워크 transaction을 수행합니다.</p>
+<p>아래와 같은 효과를 가질 수 있습니다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>request의 복잡성을 조절하는 역할</p></li>
+<li><p>로드 밸런싱, 보안 등의 이점</p></li>
+</ul>
+</div></blockquote>
+<p>Proxies는 분산 시스템에 encapsulation과 구조를 더하는 것으로 소개되었습니다.</p>
+<p>따라서 중간의 자리에서, 암시적으로 request의 원형을 <em>masking</em>하는 효과를 가집니다.</p>
+</div></blockquote>
+<p>프록시는 <em>HTTP/1.0</em> 규격에서 부터 언급되었습니다.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET /helloworld
+Host: localhost:18888
+GET https://example.com/helloworld
+Host: example.com
+</pre></div>
+</div>
+</section>
+<section id="header-proxy-authenticate">
+<h3><span class="section-number">2.6.2. </span>HEADER.Proxy-Authenticate<a class="headerlink" href="#header-proxy-authenticate" title="Permalink to this headline"></a></h3>
+<p>프록시 서버가 악용되지 않도록 인증을 이용해 프록시 서버를 보호하는 경우도 있습니다.</p>
+<p>중계되는 프록시는 중간의 호스트 IP주소를 특정 Header에 기록해 갑니다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X-Forwarded-For:</span> <span class="pre">client,</span> <span class="pre">proxy1,</span> <span class="pre">proxy2</span></code> <em>(RFC 7239)</em></p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">curl</span> <span class="pre">--http1.0</span> <span class="pre">--proxy</span> <span class="pre">http://proxy1.com</span> <span class="pre">-U</span> <span class="pre">user:pass</span> <span class="pre">http://server/helloworld</span></code></p>
+<p>HTTPS통신의 프록시 지원은 HTTP1.1에 추가된 <em>CONNECT</em> method를 사용합니다.</p>
+</section>
+</section>
+<section id="cache">
+<h2><span class="section-number">2.7. </span>Cache<a class="headerlink" href="#cache" title="Permalink to this headline"></a></h2>
+<div class="line-block">
+<div class="line">content의 diversity에 따른 데이터 전송량 증가에 따라, 컨텐츠가 변경되지 않았을 때,</div>
+<div class="line">로컬에 저장된 파일을 재사용함으로써 다운로드 데이터를 줄이고 성능을 높이는 cache 매커니즘이 등장했습니다.</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>GET, HEAD메서드 이외에는 ‘기본적으로’ 캐시되지 않습니다.</p>
+</div>
+<section id="id5">
+<h3><span class="section-number">2.7.1. </span>갱신 일자에 따른 캐시<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h3>
+<p>HTTP/1.0 당시에는 정적 컨텐츠 위주여서 파일의 timestamp가 변경되었는지 비교하는 것으로 데이터 전송여부를 결정할 수 있었습니다.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Response Header</dt><dd><p><code class="docutils literal notranslate"><span class="pre">Last-Modified:</span> <span class="pre">Wed,</span> <span class="pre">08</span> <span class="pre">Jun</span> <span class="pre">2016</span> <span class="pre">15:23:45</span> <span class="pre">GMT</span></code></p>
+</dd>
+</dl>
+</div></blockquote>
+<p>웹 브라우저가 캐시된 URL을 다시 읽을 때에 서버에서 반환된 일시를 그대로 넣어 요청합니다.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>REQUEST HEADER</dt><dd><p><code class="docutils literal notranslate"><span class="pre">If-Modified-Since:</span> <span class="pre">Wed,</span> <span class="pre">08</span> <span class="pre">Jun</span> <span class="pre">2016</span> <span class="pre">15:23:45</span> <span class="pre">GMT</span></code></p>
+</dd>
+</dl>
+</div></blockquote>
+<p>위 요청에 따라 데이터가 변경되었다면,</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>200 OK</em>, 데이터가 변경되어 정상적으로 응답</p></li>
+<li><p><em>304 Not Modified</em>, 데이터가 변경되지 않았으니 캐시를 사용하라는 응답</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="expires">
+<h3><span class="section-number">2.7.2. </span>Expires<a class="headerlink" href="#expires" title="Permalink to this headline"></a></h3>
+<p>갱신일시를 이용하는 캐시의 경우 명백히 시간이 너무 오래 지났는데 캐시의 유효성을 확인하기 위해 불필요한 통신이 발생하는 경우가 있습니다.</p>
+<blockquote>
+<div><p>이 캐시 자체에 유효시간을 두어 fresh를 체크하는 <em>Expires</em> 헤더가 http/1.0에 도입되었습니다.</p>
+</div></blockquote>
+</section>
+<section id="etag">
+<h3><span class="section-number">2.7.3. </span>ETag<a class="headerlink" href="#etag" title="Permalink to this headline"></a></h3>
+<p>날짜와 시간을 이용한 캐시 비교만으로 해결할 수 없을 때가 있습니다.</p>
+<p>사용자의 정보나 상태에 따라 부분적인 변경이 한 주소에 동적으로 일어나는 경우가 늘어나거나 하는 등의 경우에, 날짜와 시간을 근거로 캐시의 신선함을 판단하기가 어려워 집니다.</p>
+<p>이럴 때 사용할 수 있는 것이 <em>HTTP/1.1</em>에서 추가된 <em>ETag(Entity tag)</em>입니다.</p>
+<dl class="simple">
+<dt><em>Wikipedia.ETag</em></dt><dd><p>파일의 데이터로 비교하여 캐시의 유효성을 검증하는 매커니즘</p>
+<ul class="simple">
+<li><p>클라이언트가 조건적인 요청을 전달하는 것을 가능하게 합니다.</p></li>
+<li><p>대상 URL에 대한 자원이 변경되면 새로운 Etag가 생성되고 전달됩니다.</p></li>
+</ul>
+</dd>
+</dl>
+<p><em>ETag</em>는 서버가 자유롭게 결정해서 반환할 수 있습니다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>아마존 S3의 경우 컨텐츠 파일의 해시 값이 사용되는 것으로 추정됩니다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="cache-control">
+<h3><span class="section-number">2.7.4. </span>Cache-Control<a class="headerlink" href="#cache-control" title="Permalink to this headline"></a></h3>
+<p>ETag와 같이 HTTP/1.1에 추가된 Cache-Control</p>
+<p>아래와 같은 값을 가질 수 있습니다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>public</em>: 같은 컴퓨터를 사용하는 사용자간 캐시 재사용을 허가</p></li>
+<li><p><em>private</em>: 같은 컴퓨터라도 다른 사용자라면 캐시를 재사용 하지 않음(유저 별로 컨텐츠가 변경되는 경우)</p></li>
+<li><p><em>max-age=n</em>: 캐시의 fresh를 초단위로 설정. <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">==</span> <span class="pre">86400</span></code>이면 하루동안 캐시가 유효하고 시간동안 서버에 문의 없이 캐시사용</p></li>
+<li><p><em>s-maxage=n</em>: max-age와 같으나 공유 캐시에 대한 설정 값</p></li>
+<li><p><em>no-cache</em>: 캐시가 유효한지 매번 ETAG를 포함하도록 요청</p></li>
+<li><p><em>no-store</em>: 캐시하지 않도록 요청</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition-todo admonition" id="id6">
+<p class="admonition-title">Todo</p>
+<p>cache-Control(2) header for Proxy server manages</p>
+</div>
+</section>
+<section id="vary">
+<h3><span class="section-number">2.7.5. </span>Vary<a class="headerlink" href="#vary" title="Permalink to this headline"></a></h3>
+<blockquote>
+<div><p>같은 URL이라도 클라이언트에 따라 반환결과가 다름을 나타내는 헤더 Vary</p>
+</div></blockquote>
+<div class="line-block">
+<div class="line">Cache-Control을 통해서 사용자가 다른 경우 등에 대해 캐시를 사용하는지 등을 결정하는 것이 가능하지만,</div>
+<div class="line">애초에 특정 상태에 따라 데이터가 달라진다는 명백한 규칙이 있다면 좀 더 수월한 의사결정이 가능합니다.</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Vary:</span> <span class="pre">User-Agent,</span> <span class="pre">Accept-Language</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>캐시데이터가 있고 신선하며, 그럴 경우 캐시를 사용하도록 권유하더라도 해당 데이터가 모바일 네트워크 요청이었고 현재는 그렇지 않다면 다른 결과를 기대할 수 있다.</em></p></li>
+<li><p><strong>이래서 반응형이 짱이다.</strong></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="referer">
+<h3><span class="section-number">2.7.6. </span>Referer<a class="headerlink" href="#referer" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>개인정보가 GET 파라메터로 표시되게 만들면 안됩니다. referer를 통해 외부 서비스로 전송되므로 유출과 직결됩니다.</p></li>
+<li><p>방어적인 용도로 이미지에 직접 링크되는 것을 막고자, 이미지 다운로드 시 referer가 설정되지 않은 요청은 거절하는 경우도 있었습니다.</p></li>
+</ul>
+<p>referer 헤더에 대해서는 아래에 대한 옵션이 존재합니다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>no-referer</em>: 전송하지 않음</p></li>
+<li><p><em>no-referer-when-downgrade</em>: HTTPS -&gt; HTTP 일때는 전송하지 않음</p></li>
+<li><p><em>same-origin</em>: 동일 도메인 내의 링크에 대해서 전송</p></li>
+<li><p><em>origin</em>: index페이지에서 링크된 것으로 해 도메인 이름만 전송한다.</p></li>
+<li><p><em>strict-origin</em>: origin + downgrade시 비전송</p></li>
+<li><p><em>origin-when-crossorigin</em>: 같은 도메인 내에서는 온전한 referer, 다른 도메인에서는 도메인 이름만 전송</p></li>
+<li><p><em>strict-origin-when-crossorigin</em>: 위와 같으나 HTTPS -&gt; HTTP에서는 전송하지 않는다.</p></li>
+<li><p><em>unsafe-url</em>: 항상 전송한다.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="http10_syntax.html" class="btn btn-neutral float-left" title="1. Syntax of Http/1.0" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="http11_semantics.html" class="btn btn-neutral float-right" title="3. Semantics of Http/1.1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, junehan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
