@@ -22,6 +22,8 @@ help:
 github:
 	@make html
 	@cp -a _build/html/. ../docs
+	@/bin/rm -rf _build/*
+
 
 .PHONY:
 clean:

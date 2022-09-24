@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evchat-2205-nodejs &mdash; blogable_doc 0.1a documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Projects" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> blogable_doc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../clang/index.html">C language families</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../golang/index.html">go language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python things</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gits/index.html">GIT things</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker things</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Projects</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Evchat-2205-nodejs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#architecture">architecture</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">blogable_doc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Projects</a> &raquo;</li>
+      <li>Evchat-2205-nodejs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/projects/evchat.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="evchat-2205-nodejs">
+<h1>Evchat-2205-nodejs<a class="headerlink" href="#evchat-2205-nodejs" title="Permalink to this heading"></a></h1>
+<img alt="https://lh3.googleusercontent.com/pw/AM-JKLUmHa6iGCQyfEVxcQKDqqYr5yQFgW6X9XSlDCXVdaFxuupzaYHrOpLhK8nqZtg9NpH6uocFtEMMh6fiKFFP5SlYHq_DRTCSw3qlR9zAV1F_4bzGHyVDZlWtTwvjC4xIJjvEgdxgt6LqzaxZ2KxTcChl=w174-h190-no?authuser=0" src="https://lh3.googleusercontent.com/pw/AM-JKLUmHa6iGCQyfEVxcQKDqqYr5yQFgW6X9XSlDCXVdaFxuupzaYHrOpLhK8nqZtg9NpH6uocFtEMMh6fiKFFP5SlYHq_DRTCSw3qlR9zAV1F_4bzGHyVDZlWtTwvjC4xIJjvEgdxgt6LqzaxZ2KxTcChl=w174-h190-no?authuser=0" />
+<p><a class="reference external" href="https://www.youtube.com/watch?v=w-0YWDXmW0I">https://www.youtube.com/watch?v=w-0YWDXmW0I</a></p>
+<section id="architecture">
+<h2>architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">ROOM API SERVER</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>방의 생성과 관련된 API</p></li>
+<li><p>검색과 관련한 기능을 위해 방을 생성할때 태그, 카테고리, 지역 등의 추가 정보가 존재한다.</p></li>
+</ul>
+</dd>
+<dt class="field-even">AUTH API SERVER</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>모든 서버에서 통용되는 JWT TOKEN을 발급하기 위한 서버로 Social provider의 인증을 기준으로 registration이 가능하다.</p></li>
+<li><p>AccessToken 30m의 유효기간을 가진다.</p></li>
+<li><p>RefreshToken 2D의 유효기간을 가진다.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">CHAT API SERVER</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>ROOM API SERVER에서 생성된 방에 대한 검증을 전제하여 join이 가능한지 불가능한지를 검사한다.</p></li>
+<li><p>expire일자 기준 참여중인 유저들에게 leave이벤트가 발생한다.</p></li>
+</ul>
+</dd>
+</dl>
+<img alt="https://lh3.googleusercontent.com/pw/AM-JKLXOkS2YrcwCNhQPv7xwm8XmBsHlIuFDSuUly4D7_yFZzGqy58U1z99IwGY4x25V4CEp9iQ1npVa_S7Bz2-FgBGdXWzyGpFkEUthf9IwYpYy2eD6_fetTa8R3W8NSo-PIIk_4R3mhOi6y2tFADm9ID1_=w731-h681-no?authuser=0" src="https://lh3.googleusercontent.com/pw/AM-JKLXOkS2YrcwCNhQPv7xwm8XmBsHlIuFDSuUly4D7_yFZzGqy58U1z99IwGY4x25V4CEp9iQ1npVa_S7Bz2-FgBGdXWzyGpFkEUthf9IwYpYy2eD6_fetTa8R3W8NSo-PIIk_4R3mhOi6y2tFADm9ID1_=w731-h681-no?authuser=0" />
+<img alt="https://lh3.googleusercontent.com/pw/AM-JKLWeN6NdRgGpmgHJANUWAWSsIUmoQGZBGQejlhaY7qm11bB228eqvXEnjrQRoGmsIdyLCFZLW-ZiDE0pGWQMPjx6MaK_r6YO8VjS5KqWnF8mvNWfLYreL5r9m0ufYCBWhAd_Tsw0gOB-7QyB06UYN2Bh=w2100-h1296-no?authuser=0" src="https://lh3.googleusercontent.com/pw/AM-JKLWeN6NdRgGpmgHJANUWAWSsIUmoQGZBGQejlhaY7qm11bB228eqvXEnjrQRoGmsIdyLCFZLW-ZiDE0pGWQMPjx6MaK_r6YO8VjS5KqWnF8mvNWfLYreL5r9m0ufYCBWhAd_Tsw0gOB-7QyB06UYN2Bh=w2100-h1296-no?authuser=0" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Projects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, junehan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1.1. The Principal structure of a program &mdash; blogable_doc 0.1a documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="go language" href="../../../../golang/index.html" />
+    <link rel="prev" title="1. Encouter" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> blogable_doc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">C language families</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">books for c lang</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">modern c translation and source code</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">1. Encouter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../golang/index.html">go language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../python/index.html">Python things</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gits/index.html">GIT things</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../docker/index.html">Docker things</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../projects/index.html">Projects</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">blogable_doc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">C language families</a> &raquo;</li>
+          <li><a href="../../index.html">books for c lang</a> &raquo;</li>
+          <li><a href="../index.html">modern c translation and source code</a> &raquo;</li>
+          <li><a href="index.html"><span class="section-number">1. </span>Encouter</a> &raquo;</li>
+      <li><span class="section-number">1.1. </span>The Principal structure of a program</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/clang/books/modern_c/encounter/principal_structure_of_prog.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-principal-structure-of-a-program">
+<h1><span class="section-number">1.1. </span>The Principal structure of a program<a class="headerlink" href="#the-principal-structure-of-a-program" title="Permalink to this heading"></a></h1>
+<p>이 장에서 다루는 내용은</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>C 문법</p></li>
+<li><p>identifiers의 정의하는 법</p></li>
+<li><p>objects의 정의하는 법</p></li>
+<li><p>컴파일러에게 statements로 Instructing하는 법</p></li>
+</ul>
+</div></blockquote>
+<p>C 프로그램에서 고려해야 할 측면</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>syntactical aspect (형태소의)</p></li>
+<li><dl class="simple">
+<dt>semantic aspect (의미적인)</dt><dd><ul>
+<li><p>declarative</p></li>
+<li><p>definitions of objects</p></li>
+<li><p>statements</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<section id="id1">
+<h2><span class="section-number">1.1.1. </span>문법요소<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<dl class="field-list">
+<dt class="field-odd">Special words</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">#include,</span> <span class="pre">int,</span> <span class="pre">void,</span> <span class="pre">double,</span> <span class="pre">for,</span> <span class="pre">return</span></code></p>
+<p>이 특수 단어들은 C언어가 내재하는 기능을 대표하며 바뀔 수 없다.</p>
+</dd>
+<dt class="field-even">Punctuations(meaning of spacing)</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">{...},</span> <span class="pre">(...),</span> <span class="pre">[...],</span> <span class="pre">/*...*/,</span> <span class="pre">&lt;...&gt;,</span> <span class="pre">',',</span> <span class="pre">';'</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;...&gt;</span></code> 기호는 다행히 C에선 거의 쓰이지 않는다.</p></li>
+<li><p>comment라인은 컴파일러에게 무시된다. 따라서 코드를 문서화하기에 가장 적합한 장소가 된다.</p>
+<blockquote>
+<div><p>그러한 올바른 문서는 가독성과 이해력을 끌어올린다.</p>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+<dt class="field-odd">Identifier(names)</dt>
+<dd class="field-odd"><p>이 이름들은 program에게 특정한 entities를 전달한다.</p>
+<ul>
+<li><p>Data Objects: Variables</p></li>
+<li><p>Type: <code class="docutils literal notranslate"><span class="pre">size_t</span></code> 와 같은 aliases. Object의 분류를 명시한다.</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">_t</span></code>가 뒤에 붙는데, 이것은 C의 컨벤션중 하나로 타입에 대한 명시를 분명히 사용자에게 전달하는 것이다.</p>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Functions</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">main,</span> <span class="pre">printf</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code>function’s in-turn(뒤따르는)는 defined이다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>main에 대한 declaration뒤에 block이 뒤따라서, 어떤 행동을 해야하는 지를 명시한다.</p></li>
+<li><p>main은 starting point of execution이기 때문에 항상 존재해야한다.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+<dt class="field-odd">Operators</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">++,</span> <span class="pre">&lt;,</span> <span class="pre">=,</span> <span class="pre">*</span></code></p>
+<ul>
+<li><p>C언어의 많은 Operators중 아래의 것들을 다룹니다.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>=</em> : Initialization and Assignment</p></li>
+<li><p><em>&lt;</em> : Comparison</p></li>
+<li><p><em>++</em> : Increment a variable</p></li>
+<li><p><em>*</em> : Multiply two values</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Three main semantic categories that C distinguishes:</p>
+<ul class="simple">
+<li><p>declarations (선언)</p></li>
+<li><p>definitions (정의)</p></li>
+<li><p>statements (진술)</p></li>
+</ul>
+</div>
+</section>
+<section id="declarations">
+<h2><span class="section-number">1.1.2. </span>Declarations<a class="headerlink" href="#declarations" title="Permalink to this heading"></a></h2>
+<div class="line-block">
+<div class="line">어떤 name의 정의에 뒤따라서 무엇을 의미하는지 컴파일러에게 전달한다.</div>
+<div class="line">여기서 Identifier(name)과 Keywords의 다른 점이 나타난다.</div>
+</div>
+<section id="identifier">
+<h3><span class="section-number">1.1.2.1. </span>모든 identifier들은 선언 되어야 한다.<a class="headerlink" href="#identifier" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p>아래의 대상들은 선언만 하는 것으로, keyword를 사용하여 identifier로 선언하는 것이다.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">double</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span><span class="w"></span>
+<span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>개념적으로</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>object (name of specific memory)</p></li>
+<li><p>specification (type of object)</p></li>
+<li><p>content of object (value of object)</p></li>
+<li><p>name or lable (identifier)</p></li>
+</ul>
+</div></blockquote>
+<p>이들을 구분하는 것은 중요하다.</p>
+</div></blockquote>
+</li>
+<li><p>다른 3가지의 identifiers는 아래처럼 선언하는 것은 아니지만, 어딘가에 선언되어 있는 것이다.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">printf</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">format</span><span class="p">[</span><span class="k">static</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">...);</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">size_t</span><span class="p">;</span><span class="w"></span>
+<span class="cp">#define EXIT_SUCCESS 0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>이 정보는 주로 그들의 <em>include files</em> 또는 <em>header files</em>에 포함되어 있다.</p></li>
+<li><p>그들의 semantics를 알아야한다면, 해당 파일 직접 찾아보는 것은 안 좋은 방법이다. (<code class="docutils literal notranslate"><span class="pre">man</span></code>을 사용하자.)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="identifiers">
+<h3><span class="section-number">1.1.2.2. </span>Identifiers들은 오래 유지되는 선언들을 가질 수 있다.<a class="headerlink" href="#identifiers" title="Permalink to this heading"></a></h3>
+<p><em>The Scope</em> 는 프로그램의 한 부분이며, identifiers에 접근 가능한 공간이다.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">만약 파일에서 동일한 명칭들을 여러 가지 만난다면 어려운 일이 될 것이며, 이는 금지된다.</div>
+<div class="line">C언어는 “프로그램의 동일한 부분” 이라는 것에 대해서 매우 구체적으로 하는 편이다.</div>
+</div>
+</div></blockquote>
+</section>
+<section id="declarations-identifier-definitions-object">
+<h3><span class="section-number">1.1.2.3. </span>Declarations는 identifier들을, definitions는 object를 명시한다.<a class="headerlink" href="#declarations-identifier-definitions-object" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt><em>An Initilization</em></dt><dd><p>object에 대해 선언과 초기값을 부여하여 문법적으로 구축하는 것을 의미한다.</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line">C에서는 그러한 선언이 initializer이 포함되었다면, object를 정의하고 그에 합당한 이름을 붙이는 것이다.</div>
+<div class="line">이는 컴파일러에게 value가 저장된 수 있는 공간을 제공하라고 알려주는 것이다.</div>
+</div>
+</section>
+<section id="true">
+<h3><span class="section-number">1.1.2.4. </span>0이 아닌 모든 값은 논리적으로 true를 의미한다.<a class="headerlink" href="#true" title="Permalink to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w">  </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">위의 2개의 버전 중 무엇이 더 가독성이 좋은지에 대한 것은 코딩스타일의 문제이고, 의미없는 논쟁이다.</div>
+<div class="line">첫 번째의 것은 C코드를 읽는 초보인 사람에게 조금 더 쉬울 것이고, 두 번쨰의 것은 C의 타입 시스템에 지식이 있는 이들에게 선호된다.</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">bool</span></code>타입은 <code class="docutils literal notranslate"><span class="pre">stdboo.h</span></code>에 명시되어 있으며, <code class="docutils literal notranslate"><span class="pre">false,</span> <span class="pre">true</span></code>를 사용할 수 있도록 한다.</div>
+<div class="line">기술적으로 단지 0과 1의 다른 표현이지만, 명시적인 표현이라는 점에서 의미가 있다.</div>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdbool.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span><span class="cp"></span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="kt">int</span><span class="w">		</span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w">	</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">	</span><span class="c1">//a = 1;</span>
+<span class="linenos">10</span><span class="w">	</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="n">STDOUT_FILENO</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;HI&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="n">STDOUT_FILENO</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;HO&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">12</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>C/modernc/bool</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="1. Encouter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../../golang/index.html" class="btn btn-neutral float-right" title="go language" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, junehan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

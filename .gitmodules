@@ -1,3 +1,6 @@
 [submodule "docsrc/source/golang/books/go_http/srcs"]
 	path = docsrc/source/golang/books/go_http/srcs
 	url = https://github.com/junehan-dev/go-http.git
+[submodule "docsrc/source/clang/books/modern_c/srcs"]
+	path = docsrc/source/clang/books/modern_c/srcs
+	url = git@github.com:junehan-dev/c-books-modern_c.git
