@@ -259,7 +259,7 @@
 <div class="line">첫 번째의 것은 C코드를 읽는 초보인 사람에게 조금 더 쉬울 것이고, 두 번쨰의 것은 C의 타입 시스템에 지식이 있는 이들에게 선호된다.</div>
 </div>
 <div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">bool</span></code>타입은 <code class="docutils literal notranslate"><span class="pre">stdboo.h</span></code>에 명시되어 있으며, <code class="docutils literal notranslate"><span class="pre">false,</span> <span class="pre">true</span></code>를 사용할 수 있도록 한다.</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">bool</span></code>타입은 <code class="docutils literal notranslate"><span class="pre">stdbool.h</span></code>에 명시되어 있으며, <code class="docutils literal notranslate"><span class="pre">false,</span> <span class="pre">true</span></code>를 사용할 수 있도록 한다.</div>
 <div class="line">기술적으로 단지 0과 1의 다른 표현이지만, 명시적인 표현이라는 점에서 의미가 있다.</div>
 </div>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdbool.h&gt;</span><span class="cp"></span>
@@ -276,9 +276,94 @@
 <span class="linenos">12</span><span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
+</section>
+</section>
+<section id="basic-values-and-data">
+<h2><span class="section-number">1.1.3. </span>Basic Values and data<a class="headerlink" href="#basic-values-and-data" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><div class="line-block">
+<div class="line">이제까지 Statement  and expressions, 어떻게 진행되는지에 대해 다뤘다.</div>
+<div class="line">이제 C프로그램이 동작시키는 것들, value와 data에 대해 다룰 것이다.</div>
+<div class="line">만약 이미 C에 대해서 데이터 조작에 익숙하다면, 기존의 지식을 잊기위해 노력할 필요가 있다.</div>
+<div class="line">컴퓨터의 값에 대해서 명확한 표현들을 생각하는 것은 사용되는 것보다 더 도움이 될 것이다.</div>
+</div>
+</div></blockquote>
+<section id="the-abstract-state-machine">
+<h3><span class="section-number">1.1.3.1. </span>The abstract state machine<a class="headerlink" href="#the-abstract-state-machine" title="Permalink to this heading"></a></h3>
+<p><em>C 프로그램은 값들에 대해서 원인을 찾지 사용법에 대해 생각하지 않는다.</em></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">특정 값의 representation(표현)은 당신이 대부분 신경쓰지 말아야할 것이다.</div>
+<div class="line">C프로그램에서 주로 얘기해야할 부분은 C의 <em>abstract state machine(추상 상태 장치)</em>이다.</div>
+<div class="line">이것은 플랫폼에 관계없이 당신의 프로그램의 실행에 대한 정보를 준다.</div>
+<div class="line">state의 구성요소인 object들은 고정된 해석방식과 시간에 따라 달라지는 값들을 가지고 있다.</div>
+</div>
+<div class="line-block">
+<div class="line">명확한 최적화를 위해서는, C컴파일러가 탐지가능한 상태들을 재생산하는 프로그램을 생성하는 것이 중요하다.</div>
+<div class="line">이것은 일부 변수들의 내용들과 프로그램의 실행중에 생성되는 출력으로 구성되어 있다.</div>
+<div class="line">이 모든 변화의 메커니즘이 <em>abstract state machine</em>이다.</div>
+</div>
+</div></blockquote>
+<dl class="field-list">
+<dt class="field-odd">value</dt>
+<dd class="field-odd"><p>무슨 상태인가</p>
+<ul>
+<li><dl class="simple">
+<dt>추상 개체(abstract entity)이다.</dt><dd><ul class="simple">
+<li><p>프로그램을 넘어서 존재하는 것</p></li>
+<li><p>프로그램의 특정한 구현체를 넘어서 존재하는 것</p></li>
+<li><p>프로그램의 실행동안 값이 대표하는 것을 넘어서 존재하는 것</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>모든 값들은 숫자이고 숫자로 변환된다.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">이 속성이 C가 실제로 신경쓰는 것이다.</div>
+<div class="line">수학적인 개체로 프로그램에 독립적인 구체적인 실체화이다.</div>
+<div class="line">프로그램 실행의 state는 아래와 같은 요소로 정해진다.::</div>
+</div>
+<blockquote>
+<div><ul class="simple">
+<li><p>executable</p></li>
+<li><p>execution point</p></li>
+<li><p>data</p></li>
+<li><p>outside intervention(내부화), like IO</p></li>
+</ul>
+</div></blockquote>
+<div class="line-block">
+<div class="line">C프로그램이 다양한 시스템에서 이식성을 가져야 하므로, 우리는 코드와 입출력 이상의 것을 원하는데,</div>
+<div class="line">우리는 컴퓨팅의 결과가 프로그램이 아닌, 프로그램 사양 그 자체에 의존하기를 희망한다.</div>
+<div class="line">이 이식성을 위해 중요한 단계가 <em>types</em>의 개념이다.</div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+<dt class="field-even">type</dt>
+<dd class="field-even"><p>이 상태가 무엇을 의미하는가</p>
+<div class="line-block">
+<div class="line">type은 C가 값과 관련시키는 추가적인 속성이다.</div>
+<div class="line">이제까지 <code class="docutils literal notranslate"><span class="pre">size_t,</span> <span class="pre">bool,</span> <span class="pre">double</span></code>등의 타입을 보았다.</div>
+</div>
+<ul class="simple">
+<li><p>모든 값들은 정적으로 결정되는 타입을 지닌다.</p></li>
+<li><p>프로그램의 실행에 영향을 주지 않는 선에서 실행 순서를 변경할 수 있다.</p></li>
+</ul>
+<div class="line-block">
+<div class="line">프로그램 설명과 추상 상태 머신사이에 느슨함이 허용되는 것이 매우 가치있는 기능인데,</div>
+<div class="line">주로 최적화의 일환으로 언급된다.</div>
+<div class="line">이 언어의 단순함과 결합되어, 이것은 다른 장치가 많은 언어에 비해 두드러지는 주요 특성이다.</div>
+</div>
+</dd>
+<dt class="field-odd">representation</dt>
+<dd class="field-odd"><p>어떻게 상태가 구분되는가</p>
+</dd>
+</dl>
 <div class="admonition-todo admonition" id="id2">
 <p class="admonition-title">Todo</p>
-<p>C/modernc/bool</p>
+<p>C/modernc/basic_types</p>
 </div>
 </section>
 </section>
